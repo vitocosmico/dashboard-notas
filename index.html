@@ -3,23 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Notas — 1er Semestre 2026</title>
+<title>Observatorio Académico de Vito Cósmico</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   :root {
-    --bg: #f7f9ff;
-    --bg-2: #eef5ff;
+    --bg: #fbf7ff;
+    --bg-2: #f3e8ff;
     --surface: rgba(255, 255, 255, 0.88);
     --surface-solid: #ffffff;
-    --ink: #102033;
-    --ink-soft: #334155;
-    --ink-muted: #64748b;
-    --ink-faint: #94a3b8;
-    --cosmic: #1e3a8a;
-    --cosmic-2: #312e81;
-    --violet: #7c3aed;
-    --cyan: #38bdf8;
+    --ink: #221533;
+    --ink-soft: #3f3158;
+    --ink-muted: #746493;
+    --ink-faint: #a898c7;
+    --cosmic: #5b21b6;
+    --cosmic-2: #3b0764;
+    --violet: #8b5cf6;
+    --violet-2: #a855f7;
+    --magenta: #d946ef;
+    --cyan: #a78bfa;
     --star: #facc15;
     --green: #22c55e;
     --green-soft: #dcfce7;
@@ -27,10 +29,10 @@
     --amber-soft: #fef3c7;
     --red: #ef4444;
     --red-soft: #fee2e2;
-    --blue-soft: #dbeafe;
-    --border: rgba(148, 163, 184, 0.24);
-    --shadow: 0 18px 45px rgba(30, 58, 138, 0.10);
-    --shadow-soft: 0 10px 28px rgba(15, 23, 42, 0.07);
+    --blue-soft: #ede9fe;
+    --border: rgba(139, 92, 246, 0.18);
+    --shadow: 0 18px 45px rgba(91, 33, 182, 0.16);
+    --shadow-soft: 0 10px 28px rgba(76, 29, 149, 0.10);
     --radius: 22px;
     --radius-sm: 14px;
   }
@@ -42,9 +44,10 @@
   body {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     background:
-      radial-gradient(circle at 7% 10%, rgba(56, 189, 248, 0.18), transparent 28%),
-      radial-gradient(circle at 88% 8%, rgba(124, 58, 237, 0.16), transparent 26%),
-      linear-gradient(135deg, #f8fbff 0%, #eef5ff 45%, #faf7ff 100%);
+      radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.24), transparent 28%),
+      radial-gradient(circle at 82% 10%, rgba(124, 58, 237, 0.22), transparent 30%),
+      radial-gradient(circle at 48% 86%, rgba(217, 70, 239, 0.16), transparent 32%),
+      linear-gradient(135deg, #fffaff 0%, #f5edff 44%, #fbf7ff 100%);
     color: var(--ink);
     min-height: 100vh;
     padding: 0;
@@ -57,14 +60,15 @@
     inset: 0;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.58;
+    opacity: 0.62;
     background-image:
-      radial-gradient(circle, rgba(30, 58, 138, 0.30) 1px, transparent 1.5px),
-      radial-gradient(circle, rgba(124, 58, 237, 0.24) 1px, transparent 1.5px),
-      linear-gradient(115deg, transparent 0 42%, rgba(56, 189, 248, 0.10) 42.2%, transparent 43%),
-      linear-gradient(45deg, transparent 0 68%, rgba(124, 58, 237, 0.08) 68.2%, transparent 69%);
-    background-size: 140px 140px, 220px 220px, 100% 100%, 100% 100%;
-    background-position: 20px 30px, 80px 90px, 0 0, 0 0;
+      radial-gradient(circle, rgba(91, 33, 182, 0.34) 1px, transparent 1.6px),
+      radial-gradient(circle, rgba(217, 70, 239, 0.24) 1px, transparent 1.6px),
+      radial-gradient(circle, rgba(250, 204, 21, 0.18) 1px, transparent 1.6px),
+      linear-gradient(115deg, transparent 0 40%, rgba(168, 85, 247, 0.12) 40.2%, transparent 41%),
+      linear-gradient(45deg, transparent 0 67%, rgba(217, 70, 239, 0.10) 67.2%, transparent 68%);
+    background-size: 130px 130px, 210px 210px, 280px 280px, 100% 100%, 100% 100%;
+    background-position: 20px 30px, 80px 90px, 160px 40px, 0 0, 0 0;
   }
 
   /* HEADER */
@@ -81,9 +85,11 @@
     align-items: end;
     gap: 2rem;
     background:
-      radial-gradient(circle at 12% 20%, rgba(56, 189, 248, 0.38), transparent 24%),
-      radial-gradient(circle at 82% 15%, rgba(124, 58, 237, 0.42), transparent 24%),
-      linear-gradient(135deg, #0f172a 0%, #1e3a8a 48%, #312e81 100%);
+      radial-gradient(circle at 16% 18%, rgba(216, 180, 254, 0.32), transparent 24%),
+      radial-gradient(circle at 78% 14%, rgba(192, 132, 252, 0.32), transparent 26%),
+      radial-gradient(circle at 52% 78%, rgba(217, 70, 239, 0.24), transparent 30%),
+      radial-gradient(circle at 18% 88%, rgba(250, 204, 21, 0.10), transparent 22%),
+      linear-gradient(135deg, #1b102f 0%, #4c1d95 42%, #6d28d9 100%);
     box-shadow: var(--shadow);
   }
 
@@ -148,8 +154,8 @@
 
   header h1 em {
     font-style: normal;
-    color: #7dd3fc;
-    text-shadow: 0 0 32px rgba(125, 211, 252, 0.35);
+    color: #e9d5ff;
+    text-shadow: 0 0 34px rgba(233, 213, 255, 0.42), 0 0 60px rgba(217, 70, 239, 0.28);
   }
 
   .hero-subtitle {
@@ -283,13 +289,83 @@
     margin: 0 auto;
   }
 
+  /* ADMIN PANEL */
+  .admin-panel {
+    margin-bottom: 1.2rem;
+  }
+
+  .admin-panel > summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    padding: 0.95rem 1.1rem;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(16px);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+
+  .admin-panel > summary::-webkit-details-marker { display: none; }
+
+  .admin-panel > summary:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 14px 34px rgba(30, 58, 138, 0.10);
+  }
+
+  .summary-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cosmic);
+  }
+
+  .summary-title::before {
+    content: '⚙';
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    color: var(--cosmic);
+  }
+
+  .summary-helper {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ink-muted);
+  }
+
+  .admin-panel[open] > summary {
+    background: #ffffff;
+    border-color: rgba(56, 189, 248, 0.32);
+  }
+
+  .admin-panel[open] > summary .summary-helper::after {
+    content: ' · abierto';
+    color: var(--violet);
+  }
+
   /* CONFIG CARD */
   .add-sheet {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1.15rem;
-    margin-bottom: 1.2rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0;
     box-shadow: var(--shadow-soft);
     backdrop-filter: blur(16px);
   }
@@ -538,7 +614,7 @@
   }
 
   thead tr {
-    background: linear-gradient(90deg, rgba(30, 58, 138, 0.08), rgba(56, 189, 248, 0.08));
+    background: linear-gradient(90deg, rgba(91, 33, 182, 0.09), rgba(217, 70, 239, 0.08));
   }
 
   th {
@@ -646,6 +722,7 @@
 
   @media (max-width: 700px) {
     header, .toolbar { margin: 10px; border-radius: 22px; }
+    .admin-panel > summary { align-items: flex-start; flex-direction: column; }
     main { padding: 0 10px 1.5rem; }
     .metrics-grid { grid-template-columns: 1fr; }
     .sheet-row { grid-template-columns: 1fr; }
@@ -660,14 +737,14 @@
 
 <header>
   <div class="hero-copy">
-    <div class="eyebrow"><span></span> Observatorio académico · Vito Cósmico</div>
-    <h1>Dashboard de <em>Notas</em><br>1er Semestre 2026</h1>
-    <p class="hero-subtitle">Análisis visual de rendimiento por curso, aprobación y distribución de notas conectado directamente a Google Sheets.</p>
+    <div class="eyebrow"><span></span> Vito Cósmico · Panel docente personal</div>
+    <h1>Observatorio <em>Académico</em><br>de Vito Cósmico</h1>
+    <p class="hero-subtitle">Seguimiento de notas, rendimiento y análisis de cursos en un solo espacio.</p>
   </div>
   <div class="header-panel">
     <div class="header-meta">
       <div class="meta-row"><span>Actualizado</span><strong id="last-updated">—</strong></div>
-      <div class="meta-row"><span>Fuente</span><strong>Google Sheets</strong></div>
+      <div class="meta-row"><span>Espacio</span><strong>Vito Cósmico</strong></div>
       <div class="meta-row"><span>Escala</span><strong>1,0 – 7,0</strong></div>
     </div>
   </div>
@@ -684,14 +761,21 @@
 <main>
 
   <!-- CONFIG SHEET URLS -->
-  <div class="add-sheet">
-    <h3>Conexión con hojas CSV publicadas</h3>
-    <div id="sheet-rows"></div>
-    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
-      <button class="btn-add-row" onclick="addSheetRow()">+ Agregar hoja</button>
-      <button class="btn-load" onclick="saveAndLoad()">Cargar datos ↗</button>
+  <details class="admin-panel" id="configuracion">
+    <summary>
+      <span class="summary-title">Configuración</span>
+      <span class="summary-helper">Administrar hojas conectadas</span>
+    </summary>
+
+    <div class="add-sheet">
+      <h3>Hojas CSV publicadas</h3>
+      <div id="sheet-rows"></div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <button class="btn-add-row" onclick="addSheetRow()">+ Agregar hoja</button>
+        <button class="btn-load" onclick="saveAndLoad()">Cargar datos ↗</button>
+      </div>
     </div>
-  </div>
+  </details>
 
   <!-- METRICS -->
   <div class="metrics-grid" id="metrics-grid">
@@ -978,13 +1062,13 @@ function renderCharts(data) {
         y: {
           min:0,
           max:7,
-          ticks:{ stepSize:1, color:'#64748b', font:{weight:'700'} },
-          grid:{ color:'rgba(100,116,139,0.14)' },
+          ticks:{ stepSize:1, color:'#746493', font:{weight:'700'} },
+          grid:{ color:'rgba(139,92,246,0.14)' },
           border:{ display:false }
         },
         x: {
           grid:{ display:false },
-          ticks:{ color:'#64748b', font:{size:11, weight:'700'} },
+          ticks:{ color:'#746493', font:{size:11, weight:'700'} },
           border:{ display:false }
         }
       }
@@ -1017,14 +1101,14 @@ function renderCharts(data) {
       scales: {
         y: {
           stacked:true,
-          grid:{ color:'rgba(100,116,139,0.14)' },
-          ticks:{ color:'#64748b', font:{weight:'700'} },
+          grid:{ color:'rgba(139,92,246,0.14)' },
+          ticks:{ color:'#746493', font:{weight:'700'} },
           border:{ display:false }
         },
         x: {
           stacked:true,
           grid:{ display:false },
-          ticks:{ color:'#64748b', font:{size:11, weight:'700'} },
+          ticks:{ color:'#746493', font:{size:11, weight:'700'} },
           border:{ display:false }
         }
       }
