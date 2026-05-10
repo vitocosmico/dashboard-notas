@@ -611,6 +611,129 @@
     font-weight: 700;
   }
 
+  /* COURSE EXPLORER */
+  .course-tabs {
+    display: flex;
+    gap: 0.55rem;
+    overflow-x: auto;
+    padding: 0.25rem 0 0.9rem;
+    margin-bottom: 0.6rem;
+    scrollbar-width: none;
+  }
+
+  .course-tabs::-webkit-scrollbar { display: none; }
+
+  .course-tab {
+    flex: 0 0 auto;
+    padding: 0.72rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid var(--border);
+    color: var(--ink-muted);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .course-tab.active,
+  .course-tab:hover {
+    background: linear-gradient(135deg, var(--cosmic), var(--violet-2));
+    color: #ffffff;
+  }
+
+  .course-detail-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(16px);
+  }
+
+  .course-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border-radius: var(--radius);
+    background:
+      radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.18), transparent 26%),
+      linear-gradient(135deg, rgba(91, 33, 182, 0.10), rgba(217, 70, 239, 0.08));
+    border: 1px solid rgba(139, 92, 246, 0.16);
+    margin-bottom: 1rem;
+  }
+
+  .course-hero h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+
+  .course-hero p {
+    color: var(--ink-muted);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .course-status {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    padding: 0.65rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .course-status.good { background: var(--green-soft); color: #15803d; }
+  .course-status.mid { background: var(--amber-soft); color: #b45309; }
+  .course-status.risk { background: var(--red-soft); color: #b91c1c; }
+
+  .range-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .range-card {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .range-card strong {
+    display: block;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: 2rem;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+
+  .range-card span {
+    color: var(--ink-muted);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .course-note {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+    background: rgba(237, 233, 254, 0.58);
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.55;
+  }
+
   /* RESPONSIVE */
   @media (max-width: 980px) {
     .top-nav {
@@ -678,6 +801,9 @@
     .metrics-grid { grid-template-columns: 1fr; }
     header h1 { font-size: clamp(2.2rem, 13vw, 3.25rem); }
     .hero-subtitle { font-size: 0.96rem; }
+    .course-hero { grid-template-columns: 1fr; }
+    .course-status { justify-self: start; }
+    .range-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -687,7 +813,7 @@
   <a class="nav-brand" href="#inicio"><span>✦</span> Vito Cósmico</a>
   <div class="nav-links">
     <a class="nav-link active" href="#notas">Notas</a>
-    <a class="nav-link" href="#cursos">Cursos</a>
+    <a class="nav-link" href="#explorador-cursos">Cursos</a>
     <a class="nav-link soon" href="#proximamente">Conductual</a>
     <a class="nav-link soon" href="#proximamente">Socioemocional</a>
     <a class="nav-link soon" href="#proximamente">Puestos</a>
@@ -774,6 +900,20 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <!-- COURSE EXPLORER -->
+  <div class="section" id="explorador-cursos">
+    <div class="section-header">
+      <h2>Explorador de cursos</h2>
+      <span>Vista individual</span>
+    </div>
+
+    <div class="course-tabs" id="course-tabs"></div>
+
+    <div class="course-detail-card" id="course-detail">
+      <p class="state-msg">Cargando vista del curso…</p>
     </div>
   </div>
 
@@ -1095,6 +1235,92 @@ function renderTable(data) {
   }).join('');
 }
 
+function renderCourseTabs(selectedName = '1ro A') {
+  const container = document.getElementById('course-tabs');
+  if (!container) return;
+
+  container.innerHTML = allCourseData.map(course => `
+    <button class="course-tab ${course.name === selectedName ? 'active' : ''}" onclick="renderCourseDetail('${course.name.replace(/'/g, "\'")}')">
+      ${course.name}
+    </button>
+  `).join('');
+}
+
+function renderCourseDetail(courseName = '1ro A') {
+  const container = document.getElementById('course-detail');
+  if (!container) return;
+
+  const course = allCourseData.find(c => c.name === courseName) || allCourseData[0];
+  if (!course) {
+    container.innerHTML = '<p class="state-msg">No hay datos disponibles para mostrar.</p>';
+    return;
+  }
+
+  renderCourseTabs(course.name);
+
+  const pct40 = course.conNota ? Math.round(course.b40 / course.conNota * 100) : 0;
+  const pct54 = course.conNota ? Math.round(course.m54 / course.conNota * 100) : 0;
+  const pct55 = course.conNota ? Math.round(course.a55 / course.conNota * 100) : 0;
+  const approved = course.conNota - course.b40;
+  const pctApproved = course.conNota ? Math.round(approved / course.conNota * 100) : 0;
+
+  const statusText = course.avg >= 55 ? 'Bueno' : course.avg >= 45 ? 'Regular' : course.avg !== null ? 'Atención' : 'Sin datos';
+  const statusClass = course.avg >= 55 ? 'good' : course.avg >= 45 ? 'mid' : 'risk';
+
+  container.innerHTML = `
+    <div class="course-hero">
+      <div>
+        <h3>${course.name}</h3>
+        <p>Resumen individual del curso en escala chilena 1,0 a 7,0. Esta vista muestra datos agregados, sin exponer nombres de estudiantes.</p>
+      </div>
+      <span class="course-status ${statusClass}">${statusText}</span>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card neutral">
+        <p class="metric-label">Promedio</p>
+        <p class="metric-value">${fmtGrade(course.avg)}</p>
+        <p class="metric-sub">nota general del curso</p>
+      </div>
+      <div class="metric-card ${pctApproved >= 80 ? 'green' : pctApproved >= 65 ? 'amber' : 'red'}">
+        <p class="metric-label">Aprobación</p>
+        <p class="metric-value">${pctApproved}%</p>
+        <p class="metric-sub">${approved} de ${course.conNota} con nota</p>
+      </div>
+      <div class="metric-card red">
+        <p class="metric-label">Bajo 4,0</p>
+        <p class="metric-value">${course.b40}</p>
+        <p class="metric-sub">${pct40}% del curso</p>
+      </div>
+      <div class="metric-card green">
+        <p class="metric-label">5,5 o más</p>
+        <p class="metric-value">${course.a55}</p>
+        <p class="metric-sub">${pct55}% del curso</p>
+      </div>
+    </div>
+
+    <div class="range-grid">
+      <div class="range-card">
+        <strong>${course.b40}</strong>
+        <span>Bajo 4,0 · ${pct40}%</span>
+      </div>
+      <div class="range-card">
+        <strong>${course.m54}</strong>
+        <span>Entre 4,0 y 5,4 · ${pct54}%</span>
+      </div>
+      <div class="range-card">
+        <strong>${course.a55}</strong>
+        <span>Desde 5,5 a 7,0 · ${pct55}%</span>
+      </div>
+    </div>
+
+    <div class="course-note">
+      Lectura rápida: ${course.b40 > 0 ? `hay ${course.b40} estudiante(s) bajo 4,0 que requieren seguimiento o refuerzo.` : 'no se observan estudiantes bajo 4,0 en esta carga.'}
+      ${course.avg !== null && course.avg < 45 ? 'Conviene revisar contenidos base y diseñar una acción remedial breve.' : course.avg >= 55 ? 'El curso muestra un desempeño global positivo.' : 'El curso se mantiene en zona intermedia, con espacio para reforzar y consolidar aprendizajes.'}
+    </div>
+  `;
+}
+
 // ── LOAD ALL ─────────────────────────────────────────────────────
 async function loadAll() {
   const btn = document.getElementById('refreshBtn');
@@ -1121,6 +1347,8 @@ async function loadAll() {
   renderMetrics(allCourseData);
   renderCharts(allCourseData);
   renderTable(allCourseData);
+  renderCourseTabs('1ro A');
+  renderCourseDetail('1ro A');
 
   const now = new Date();
   document.getElementById('last-updated').textContent =
