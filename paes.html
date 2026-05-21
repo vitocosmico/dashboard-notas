@@ -629,8 +629,8 @@
     </div>
     <div class="dashboard-grid">
       <div class="chart-card">
-        <p class="chart-title">Promedio PAES por curso</p>
-        <div class="chart-wrap"><canvas id="courseChart"></canvas></div>
+        <p class="chart-title">Comparación por ensayo</p>
+        <div class="chart-wrap"><canvas id="testChart"></canvas></div>
       </div>
       <div class="chart-card">
         <p class="chart-title">Distribución por rango</p>
@@ -641,17 +641,6 @@
           <span><span class="legend-dot" style="background:#ef4444"></span>Bajo 450</span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-header">
-      <h2>Ensayos</h2>
-      <span>Promedio por instrumento</span>
-    </div>
-    <div class="chart-card">
-      <p class="chart-title">Comparación por ensayo</p>
-      <div class="chart-wrap"><canvas id="testChart"></canvas></div>
     </div>
   </section>
 
@@ -737,7 +726,6 @@ const PAES_SHEETS = [
 ];
 
 let allData = [];
-let courseChart = null;
 let rangeChart = null;
 let testChart = null;
 
@@ -881,23 +869,6 @@ function renderMetrics(data) {
 
 function renderCharts(data) {
   const labels = data.map(c => c.name);
-
-  if (courseChart) courseChart.destroy();
-  courseChart = new Chart(document.getElementById('courseChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Promedio PAES',
-        data: data.map(c => c.avg ? Math.round(c.avg) : 0),
-        backgroundColor: '#2563eb',
-        borderRadius: 12,
-        borderSkipped: false,
-        maxBarThickness: 76
-      }]
-    },
-    options: baseChartOptions(100, 1000)
-  });
 
   if (rangeChart) rangeChart.destroy();
   rangeChart = new Chart(document.getElementById('rangeChart'), {
