@@ -512,6 +512,41 @@
   tbody tr:hover { background: rgba(237, 233, 254, 0.55); }
   .course-name { color: var(--ink); font-weight: 900; }
 
+  .course-kind {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--ink-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .status-line {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 230px;
+  }
+
+  .status-bar {
+    display: flex;
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e2e8f0;
+  }
+
+  .status-seg {
+    height: 100%;
+  }
+
+  .status-summary {
+    color: var(--ink-muted);
+    font-size: 0.74rem;
+    font-weight: 850;
+    white-space: nowrap;
+  }
+
   .state-msg {
     padding: 2rem;
     text-align: center;
@@ -795,19 +830,15 @@
           <thead>
             <tr>
               <th>Curso</th>
-              <th>Total</th>
-              <th>Tipo</th>
-              <th>Finales cerradas</th>
-              <th>Promedio final</th>
-              <th>Bajo 4,0</th>
-              <th>4,0-5,4</th>
-              <th>5,5+</th>
-              <th>Procesos sin final</th>
+              <th>Estudiantes</th>
+              <th>Promedio</th>
+              <th>Distribución</th>
+              <th>Pendientes</th>
               <th>Estado</th>
             </tr>
           </thead>
           <tbody id="course-table">
-            <tr><td colspan="10" class="state-msg">Sin datos</td></tr>
+            <tr><td colspan="6" class="state-msg">Sin datos</td></tr>
           </tbody>
         </table>
       </div>
@@ -1184,18 +1215,29 @@ function renderCourseTable(data) {
     const total = course.low + course.mid + course.high;
     const avgText = course.type === 'paes' ? fmtNumber(course.avg) : fmtGrade(course.avg);
     const typeText = course.type === 'paes' ? 'PAES' : 'Unidades';
+    const lowPct = pct(course.low, total);
+    const midPct = pct(course.mid, total);
+    const highPct = pct(course.high, total);
+    const pendingLabel = course.type === 'paes'
+      ? `${course.incomplete} sin registro`
+      : `${course.incomplete} procesos`;
 
     return `
       <tr>
-        <td class="course-name">${course.name}</td>
+        <td class="course-name">${course.name}<span class="course-kind">${typeText}</span></td>
         <td>${course.total}</td>
-        <td>${typeText}</td>
-        <td>${course.closedFinals}</td>
         <td><strong>${avgText}</strong></td>
-        <td style="color:#b91c1c">${course.low} <small>(${pct(course.low, total)}%)</small></td>
-        <td style="color:#b45309">${course.mid} <small>(${pct(course.mid, total)}%)</small></td>
-        <td style="color:#15803d">${course.high} <small>(${pct(course.high, total)}%)</small></td>
-        <td>${course.incomplete}</td>
+        <td>
+          <div class="status-line">
+            <div class="status-bar" title="Verde: alto | Amarillo: medio | Rojo: atención">
+              <div class="status-seg" style="width:${highPct}%;background:#22c55e"></div>
+              <div class="status-seg" style="width:${midPct}%;background:#f59e0b"></div>
+              <div class="status-seg" style="width:${lowPct}%;background:#ef4444"></div>
+            </div>
+            <span class="status-summary">${highPct}% / ${midPct}% / ${lowPct}%</span>
+          </div>
+        </td>
+        <td>${pendingLabel}</td>
         <td><span class="badge ${badgeClass}">${label}</span></td>
       </tr>
     `;
