@@ -164,10 +164,10 @@
     overflow: hidden;
     margin: 14px 18px 18px;
     border-radius: 28px;
-    min-height: 420px;
+    min-height: clamp(260px, 34vw, 340px);
     display: grid;
     align-items: end;
-    padding: clamp(1.3rem, 3vw, 2.4rem);
+    padding: clamp(1.15rem, 2.4vw, 2rem);
     color: white;
     background:
       linear-gradient(90deg, rgba(27, 16, 47, 0.9), rgba(76, 29, 149, 0.72), rgba(109, 40, 217, 0.48)),
@@ -199,8 +199,8 @@
 
   h1 {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: clamp(2.3rem, 6.5vw, 5rem);
-    line-height: 0.96;
+    font-size: clamp(2rem, 5.2vw, 4.1rem);
+    line-height: 1;
     letter-spacing: -0.04em;
     max-width: 920px;
   }
@@ -214,7 +214,7 @@
     max-width: 760px;
     margin-top: 1rem;
     color: rgba(255,255,255,0.84);
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: clamp(0.95rem, 1.6vw, 1.08rem);
     line-height: 1.6;
   }
 
@@ -272,6 +272,7 @@
   .metric-card.green::after { background: linear-gradient(90deg, var(--green), #86efac); }
   .metric-card.amber::after { background: linear-gradient(90deg, var(--amber), var(--star)); }
   .metric-card.red::after { background: linear-gradient(90deg, var(--red), #fb7185); }
+  .metric-card.blue::after { background: linear-gradient(90deg, #2563eb, #38bdf8); }
 
   .metric-label {
     font-size: 0.72rem;
@@ -453,7 +454,7 @@
     .brand { padding: 0.52rem 0.68rem; font-size: 0.74rem; }
     .nav-actions { width: 100%; display: grid; grid-template-columns: 1fr; }
     .last-updated, .nav-refresh { width: 100%; text-align: center; }
-    header { margin: 10px; min-height: 340px; padding: 1.2rem; border-radius: 22px; }
+    header { margin: 10px; min-height: 270px; padding: 1.05rem; border-radius: 22px; }
     main { padding: 0 10px 1.5rem; }
     .metrics-grid { grid-template-columns: 1fr; }
   }
@@ -475,7 +476,7 @@
 <header id="inicio">
   <div>
     <div class="eyebrow"><span></span> Vito Cósmico · Panel público agregado</div>
-    <h1>Observatorio <em>Académico</em><br>por cursos y unidades</h1>
+    <h1>Observatorio <em>Académico</em><br>Vito Cósmico</h1>
     <p class="hero-subtitle">Una vista general, simple y pública del avance académico por curso, sin nombres de estudiantes.</p>
   </div>
 </header>
@@ -826,10 +827,12 @@ function renderMetrics(data) {
   const totalStudents = data.reduce((sum, c) => sum + c.total, 0);
   const unitCourses = data.filter(c => c.type === 'unidad');
   const paesCourses = data.filter(c => c.type === 'paes');
-  const unitAvg = average(unitCourses.map(c => c.avg).filter(v => v !== null));
   const paesAvg = average(paesCourses.map(c => c.avg).filter(v => v !== null));
-  const incomplete = data.reduce((sum, c) => sum + c.incomplete, 0);
-  const risk = unitCourses.reduce((sum, c) => sum + c.low, 0) + paesCourses.reduce((sum, c) => sum + c.low, 0);
+  const evaluated = unitCourses.reduce((sum, c) => sum + c.low + c.mid + c.high, 0);
+  const approved = unitCourses.reduce((sum, c) => sum + c.mid + c.high, 0);
+  const failed = unitCourses.reduce((sum, c) => sum + c.low, 0);
+  const approvalPct = pct(approved, evaluated);
+  const failedPct = pct(failed, evaluated);
 
   document.getElementById('metrics-grid').innerHTML = `
     <div class="metric-card">
@@ -837,20 +840,20 @@ function renderMetrics(data) {
       <p class="metric-value">${data.length}</p>
       <p class="metric-sub">${totalStudents} estudiantes contados sin mostrar nombres</p>
     </div>
-    <div class="metric-card ${unitAvg >= 55 ? 'green' : unitAvg >= 45 ? 'amber' : 'red'}">
-      <p class="metric-label">Promedio unidades</p>
-      <p class="metric-value">${fmtGrade(unitAvg)}</p>
-      <p class="metric-sub">solo notas finales cerradas</p>
+    <div class="metric-card green">
+      <p class="metric-label">Aprobados</p>
+      <p class="metric-value">${approved}</p>
+      <p class="metric-sub">${approvalPct}% de ${evaluated} estudiantes con promedio final</p>
     </div>
-    <div class="metric-card ${paesAvg >= 600 ? 'green' : paesAvg >= 450 ? 'amber' : 'red'}">
+    <div class="metric-card red">
+      <p class="metric-label">Reprobados</p>
+      <p class="metric-value">${failed}</p>
+      <p class="metric-sub">${failedPct}% bajo 4,0 en promedio final</p>
+    </div>
+    <div class="metric-card blue">
       <p class="metric-label">Promedio PAES</p>
       <p class="metric-value">${fmtNumber(paesAvg)}</p>
       <p class="metric-sub">4° medio se mantiene separado</p>
-    </div>
-    <div class="metric-card ${incomplete === 0 ? 'green' : incomplete <= 10 ? 'amber' : 'red'}">
-      <p class="metric-label">Procesos sin final</p>
-      <p class="metric-value">${incomplete}</p>
-      <p class="metric-sub">${risk} casos agregados en zona de atención</p>
     </div>
   `;
 }
