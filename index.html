@@ -9,19 +9,14 @@
 <style>
   :root {
     --bg: #fbf7ff;
-    --bg-2: #f3e8ff;
-    --surface: rgba(255, 255, 255, 0.88);
-    --surface-solid: #ffffff;
+    --surface: rgba(255, 255, 255, 0.9);
     --ink: #221533;
     --ink-soft: #3f3158;
     --ink-muted: #746493;
     --ink-faint: #a898c7;
     --cosmic: #5b21b6;
-    --cosmic-2: #3b0764;
     --violet: #8b5cf6;
     --violet-2: #a855f7;
-    --magenta: #d946ef;
-    --cyan: #a78bfa;
     --star: #facc15;
     --green: #22c55e;
     --green-soft: #dcfce7;
@@ -33,24 +28,20 @@
     --border: rgba(139, 92, 246, 0.18);
     --shadow: 0 18px 45px rgba(91, 33, 182, 0.16);
     --shadow-soft: 0 10px 28px rgba(76, 29, 149, 0.10);
-    --radius: 22px;
-    --radius-sm: 14px;
+    --radius: 18px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background:
-      radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.24), transparent 28%),
-      radial-gradient(circle at 82% 10%, rgba(124, 58, 237, 0.22), transparent 30%),
-      radial-gradient(circle at 48% 86%, rgba(217, 70, 239, 0.16), transparent 32%),
-      linear-gradient(135deg, #fffaff 0%, #f5edff 44%, #fbf7ff 100%);
-    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
     min-height: 100vh;
-    padding: 0;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.18), transparent 28%),
+      radial-gradient(circle at 82% 10%, rgba(124, 58, 237, 0.16), transparent 30%),
+      linear-gradient(135deg, #fffaff 0%, #f5edff 44%, #fbf7ff 100%);
     overflow-x: hidden;
   }
 
@@ -58,20 +49,16 @@
     content: '';
     position: fixed;
     inset: 0;
-    pointer-events: none;
     z-index: -1;
-    opacity: 0.62;
+    pointer-events: none;
+    opacity: 0.48;
     background-image:
-      radial-gradient(circle, rgba(91, 33, 182, 0.34) 1px, transparent 1.6px),
-      radial-gradient(circle, rgba(217, 70, 239, 0.24) 1px, transparent 1.6px),
-      radial-gradient(circle, rgba(250, 204, 21, 0.18) 1px, transparent 1.6px),
-      linear-gradient(115deg, transparent 0 40%, rgba(168, 85, 247, 0.12) 40.2%, transparent 41%),
-      linear-gradient(45deg, transparent 0 67%, rgba(217, 70, 239, 0.10) 67.2%, transparent 68%);
-    background-size: 130px 130px, 210px 210px, 280px 280px, 100% 100%, 100% 100%;
-    background-position: 20px 30px, 80px 90px, 160px 40px, 0 0, 0 0;
+      radial-gradient(circle, rgba(91, 33, 182, 0.26) 1px, transparent 1.5px),
+      radial-gradient(circle, rgba(250, 204, 21, 0.18) 1px, transparent 1.5px);
+    background-size: 130px 130px, 260px 260px;
+    background-position: 20px 30px, 160px 40px;
   }
 
-  /* TOP NAV */
   .top-nav {
     position: sticky;
     top: 12px;
@@ -83,38 +70,32 @@
     align-items: center;
     gap: 0.75rem;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.8);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-soft);
     backdrop-filter: blur(18px);
   }
 
-  .nav-brand {
+  .brand {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
     padding: 0.72rem 0.95rem;
     border-radius: 999px;
     background: linear-gradient(135deg, var(--cosmic), var(--violet-2));
-    color: #ffffff;
+    color: white;
     text-decoration: none;
     font-size: 0.86rem;
     font-weight: 900;
     white-space: nowrap;
-    box-shadow: 0 12px 26px rgba(91, 33, 182, 0.22);
   }
 
-  .nav-brand span {
-    color: var(--star);
-    text-shadow: 0 0 16px rgba(250, 204, 21, 0.65);
-  }
+  .brand span { color: var(--star); }
 
   .nav-links {
     display: flex;
-    align-items: center;
     gap: 0.3rem;
     flex: 1;
-    min-width: 0;
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -129,37 +110,21 @@
     text-decoration: none;
     font-size: 0.8rem;
     font-weight: 900;
-    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
   }
 
   .nav-link:hover,
   .nav-link.active {
     background: var(--blue-soft);
     color: var(--cosmic);
-    transform: translateY(-1px);
-  }
-
-  .nav-link.soon {
-    color: var(--ink-faint);
-  }
-
-  .nav-link.soon::after {
-    content: ' · pronto';
-    font-size: 0.68rem;
-    color: var(--violet);
   }
 
   .nav-actions {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
-    flex: 0 0 auto;
   }
 
-  .last-updated-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
+  .last-updated {
     padding: 0.62rem 0.85rem;
     border-radius: 999px;
     background: rgba(237, 233, 254, 0.82);
@@ -170,93 +135,46 @@
     white-space: nowrap;
   }
 
-  .last-updated-pill strong {
-    color: var(--cosmic);
-    font-weight: 900;
-  }
+  .last-updated strong { color: var(--cosmic); }
 
   button {
-    font-family: 'Inter', sans-serif;
+    font-family: inherit;
     font-size: 0.82rem;
     font-weight: 800;
     padding: 0.72rem 1rem;
     border-radius: 999px;
     border: 1px solid rgba(91, 33, 182, 0.20);
-    background: #ffffff;
+    background: white;
     color: var(--cosmic);
     cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
     box-shadow: 0 8px 18px rgba(91, 33, 182, 0.08);
   }
 
   button:hover {
     background: linear-gradient(135deg, var(--cosmic), var(--violet));
-    color: #ffffff;
-    box-shadow: 0 14px 30px rgba(91, 33, 182, 0.20);
-    transform: translateY(-1px);
+    color: white;
   }
 
-  button:active { transform: scale(0.98); }
-
-  .nav-refresh { white-space: nowrap; }
-
-  #spin { display:inline-block; transition: transform 0.4s; }
+  #spin { display: inline-block; }
   button.spinning #spin { animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* HEADER */
   header {
     position: relative;
     overflow: hidden;
     margin: 14px 18px 18px;
     border-radius: 28px;
-    color: #ffffff;
-    padding: clamp(1.3rem, 3vw, 2.4rem);
-    min-height: 470px;
+    min-height: 420px;
     display: grid;
-    grid-template-columns: 1fr;
     align-items: end;
-    gap: 2rem;
+    padding: clamp(1.3rem, 3vw, 2.4rem);
+    color: white;
     background:
-      linear-gradient(90deg, rgba(27, 16, 47, 0.88) 0%, rgba(76, 29, 149, 0.74) 48%, rgba(109, 40, 217, 0.54) 100%),
-      radial-gradient(circle at 16% 18%, rgba(216, 180, 254, 0.30), transparent 24%),
-      radial-gradient(circle at 78% 14%, rgba(192, 132, 252, 0.28), transparent 26%),
-      radial-gradient(circle at 52% 78%, rgba(217, 70, 239, 0.22), transparent 30%),
+      linear-gradient(90deg, rgba(27, 16, 47, 0.9), rgba(76, 29, 149, 0.72), rgba(109, 40, 217, 0.48)),
       url('https://uvn-brightspot.s3.amazonaws.com/assets/vixes/s/se_escucharon_rafagas_de_radio_extraterrestres_y_todos_deben_llamar_a_men_in_black.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     box-shadow: var(--shadow);
-  }
-
-  header::before {
-    content: '';
-    position: absolute;
-    width: 420px;
-    height: 420px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 50%;
-    right: -150px;
-    top: -175px;
-    box-shadow: 0 0 0 42px rgba(255, 255, 255, 0.035), 0 0 0 96px rgba(255, 255, 255, 0.025);
-  }
-
-  header::after {
-    content: '';
-    position: absolute;
-    width: 170px;
-    height: 170px;
-    border: 1px dashed rgba(250, 204, 21, 0.36);
-    border-radius: 50%;
-    left: 48%;
-    top: 18%;
-    transform: rotate(-18deg);
-  }
-
-  .hero-copy {
-    position: relative;
-    z-index: 1;
-    max-width: 920px;
   }
 
   .eyebrow {
@@ -267,11 +185,8 @@
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.14);
     border: 1px solid rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(10px);
-    color: rgba(255, 255, 255, 0.92);
     font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.02em;
     margin-bottom: 1rem;
   }
 
@@ -280,72 +195,47 @@
     height: 8px;
     border-radius: 50%;
     background: var(--star);
-    box-shadow: 0 0 18px rgba(250, 204, 21, 0.8);
   }
 
-  header h1 {
+  h1 {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: clamp(2.4rem, 6.8vw, 5.1rem);
+    font-size: clamp(2.3rem, 6.5vw, 5rem);
     line-height: 0.96;
-    letter-spacing: -0.06em;
-    max-width: 930px;
+    letter-spacing: -0.04em;
+    max-width: 920px;
   }
 
-  header h1 em {
+  h1 em {
     font-style: normal;
     color: #e9d5ff;
-    text-shadow: 0 0 34px rgba(233, 213, 255, 0.42), 0 0 60px rgba(217, 70, 239, 0.28);
   }
 
   .hero-subtitle {
     max-width: 760px;
-    margin-top: 1.1rem;
+    margin-top: 1rem;
     color: rgba(255,255,255,0.84);
     font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.6;
   }
 
-  .hidden-system {
-    display: none !important;
-  }
-
-  .sheet-chip {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 7px 11px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: #ffffff;
-    color: var(--ink-muted);
-    cursor: default;
-    transition: all 0.18s ease;
-  }
-
-  .sheet-chip.loaded {
-    background: var(--green-soft);
-    border-color: rgba(34, 197, 94, 0.38);
-    color: #15803d;
-  }
-
-  .sheet-chip.error  {
-    background: var(--red-soft);
-    border-color: rgba(239, 68, 68, 0.38);
-    color: #b91c1c;
-  }
-
-  .sheet-chip.loading { animation: pulse 1s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.45} }
-
-  /* MAIN */
   main {
-    padding: 0 18px 2.5rem;
     width: min(1440px, 100%);
     margin: 0 auto;
+    padding: 0 18px 2.5rem;
   }
 
-  /* METRIC CARDS */
+  .notice {
+    margin-bottom: 1.25rem;
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius);
+    background: rgba(254, 243, 199, 0.92);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #7c4300;
+    font-size: 0.9rem;
+    font-weight: 750;
+    line-height: 1.55;
+  }
+
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(170px, 1fr));
@@ -353,53 +243,38 @@
     margin-bottom: 1.25rem;
   }
 
-  .metric-card {
+  .metric-card,
+  .panel,
+  .chart-card,
+  .table-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.25rem;
-    position: relative;
-    overflow: hidden;
-    min-height: 150px;
     box-shadow: var(--shadow-soft);
     backdrop-filter: blur(16px);
   }
 
-  .metric-card::before {
-    content: '';
-    position: absolute;
-    inset: auto 16px 16px auto;
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
-    opacity: 0.20;
-    background: radial-gradient(circle, currentColor 0 9%, transparent 10%), radial-gradient(circle, transparent 46%, currentColor 47% 49%, transparent 50%);
+  .metric-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 146px;
+    padding: 1.2rem;
   }
 
   .metric-card::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0 0 auto;
     height: 5px;
-    background: linear-gradient(90deg, var(--cosmic), var(--cyan));
+    background: linear-gradient(90deg, var(--cosmic), var(--violet));
   }
-
-  .metric-card.green { color: var(--green); }
-  .metric-card.amber { color: var(--amber); }
-  .metric-card.red { color: var(--red); }
-  .metric-card.neutral { color: var(--cosmic); }
 
   .metric-card.green::after { background: linear-gradient(90deg, var(--green), #86efac); }
   .metric-card.amber::after { background: linear-gradient(90deg, var(--amber), var(--star)); }
   .metric-card.red::after { background: linear-gradient(90deg, var(--red), #fb7185); }
-  .metric-card.neutral::after { background: linear-gradient(90deg, var(--cosmic), var(--cyan)); }
 
   .metric-label {
-    position: relative;
-    z-index: 1;
-    font-size: 0.73rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--ink-muted);
@@ -408,32 +283,27 @@
   }
 
   .metric-value {
-    position: relative;
-    z-index: 1;
     font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: clamp(2.1rem, 4vw, 3.1rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
     line-height: 1;
-    color: var(--ink);
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
   }
 
   .metric-sub {
-    position: relative;
-    z-index: 1;
-    font-size: 0.78rem;
-    color: var(--ink-muted);
     margin-top: 0.6rem;
-    font-weight: 600;
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+    font-weight: 650;
+    line-height: 1.45;
   }
 
-  /* SECTION */
   .section { margin-bottom: 1.25rem; }
 
   .section-header {
     display: flex;
-    align-items: baseline;
     justify-content: space-between;
+    align-items: baseline;
     gap: 1rem;
     margin-bottom: 0.8rem;
     padding: 0 0.25rem;
@@ -441,120 +311,81 @@
 
   .section-header h2 {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-weight: 700;
     font-size: 1.35rem;
-    letter-spacing: -0.035em;
-    color: var(--ink);
+    letter-spacing: -0.02em;
   }
 
   .section-header span {
-    font-size: 0.73rem;
     color: var(--ink-muted);
+    font-size: 0.73rem;
+    font-weight: 850;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    font-weight: 800;
   }
 
-  /* CHARTS GRID */
-  .charts-grid {
+  .dashboard-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
     gap: 16px;
-    margin-bottom: 1.25rem;
   }
 
-  .chart-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.2rem;
-    box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(16px);
-  }
-
+  .chart-card { padding: 1.1rem; }
   .chart-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--ink-muted);
     font-size: 0.78rem;
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--ink-muted);
-    font-weight: 900;
-    margin-bottom: 1rem;
-  }
-
-  .chart-title::after {
-    content: '◌';
-    color: var(--cyan);
-    font-size: 1.15rem;
-    line-height: 1;
   }
 
   .chart-wrap { position: relative; height: 300px; }
 
-  /* TABLE */
-  .table-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(16px);
+  .panel { padding: 1rem; }
+  .panel h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: 1.05rem;
+    margin-bottom: 0.8rem;
   }
 
-  .table-scroll { width: 100%; overflow-x: auto; }
+  .stack { display: grid; gap: 0.6rem; }
 
-  table {
-    width: 100%;
-    min-width: 960px;
-    border-collapse: collapse;
-    font-size: 0.86rem;
+  .mini-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.65rem;
+    align-items: center;
+    padding: 0.7rem;
+    border-radius: 14px;
+    border: 1px solid rgba(139, 92, 246, 0.14);
+    background: rgba(255, 255, 255, 0.7);
   }
 
-  thead tr {
-    background: linear-gradient(90deg, rgba(91, 33, 182, 0.09), rgba(217, 70, 239, 0.08));
+  .mini-item strong {
+    display: block;
+    font-size: 0.87rem;
+    color: var(--ink);
   }
 
-  th {
-    padding: 1rem;
-    text-align: left;
-    font-size: 0.70rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+  .mini-item span {
+    display: block;
+    margin-top: 0.15rem;
     color: var(--ink-muted);
-    font-weight: 900;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
+    font-size: 0.74rem;
+    font-weight: 750;
   }
 
-  th:not(:first-child) { text-align: center; }
-
-  td {
-    padding: 0.92rem 1rem;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
-    color: var(--ink-soft);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  td:not(:first-child) { text-align: center; }
-  tbody tr:last-child td { border-bottom: none; }
-  tbody tr:hover { background: rgba(237, 233, 254, 0.55); }
-  .curso-name { font-weight: 900; color: var(--ink); }
-
-  /* BADGES */
   .badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    font-size: 0.72rem;
     padding: 0.32rem 0.65rem;
     border-radius: 999px;
+    font-size: 0.72rem;
     font-weight: 900;
     border: 1px solid transparent;
+    white-space: nowrap;
   }
 
   .badge::before {
@@ -570,312 +401,212 @@
   .badge-red { background: var(--red-soft); color: #b91c1c; border-color: rgba(239, 68, 68, 0.22); }
   .badge-gray { background: #f1f5f9; color: var(--ink-muted); border-color: var(--border); }
 
-  .pct-bar {
-    display: flex;
-    height: 9px;
-    border-radius: 999px;
-    overflow: hidden;
-    gap: 2px;
-    margin-top: 2px;
-    background: #e2e8f0;
+  .table-card { overflow: hidden; }
+  .table-scroll { width: 100%; overflow-x: auto; }
+  table {
+    width: 100%;
+    min-width: 1020px;
+    border-collapse: collapse;
+    font-size: 0.86rem;
   }
 
-  .pct-seg { height: 100%; }
-
-  /* LEGEND */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    font-size: 0.78rem;
+  thead tr { background: linear-gradient(90deg, rgba(91, 33, 182, 0.09), rgba(217, 70, 239, 0.08)); }
+  th {
+    padding: 1rem;
+    text-align: left;
     color: var(--ink-muted);
-    margin-top: 12px;
-    font-weight: 700;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
   }
-
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 3px;
-    display: inline-block;
-    margin-right: 5px;
-    vertical-align: middle;
+  th:not(:first-child), td:not(:first-child) { text-align: center; }
+  td {
+    padding: 0.92rem 1rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    color: var(--ink-soft);
+    font-weight: 650;
+    white-space: nowrap;
   }
+  tbody tr:hover { background: rgba(237, 233, 254, 0.55); }
+  .course-name { color: var(--ink); font-weight: 900; }
 
-  /* EMPTY / ERROR STATE */
-  .state-msg {
-    text-align: center;
-    padding: 3rem;
-    color: var(--ink-faint);
-    font-size: 0.92rem;
-    font-weight: 700;
-  }
-
-  /* COURSE EXPLORER */
-  .course-tabs {
+  .tabs {
     display: flex;
     gap: 0.55rem;
     overflow-x: auto;
     padding: 0.25rem 0 0.9rem;
-    margin-bottom: 0.6rem;
     scrollbar-width: none;
   }
-
-  .course-tabs::-webkit-scrollbar { display: none; }
-
-  .course-tab {
-    flex: 0 0 auto;
-    padding: 0.72rem 1rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px solid var(--border);
-    color: var(--ink-muted);
-    box-shadow: var(--shadow-soft);
-  }
-
-  .course-tab.active,
-  .course-tab:hover {
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab.active,
+  .tab:hover {
     background: linear-gradient(135deg, var(--cosmic), var(--violet-2));
-    color: #ffffff;
+    color: white;
   }
 
-  .course-detail-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.2rem;
-    box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(16px);
-  }
-
-  .course-hero {
+  .unit-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 1rem;
-    align-items: center;
-    padding: 1rem;
-    border-radius: var(--radius);
-    background:
-      radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.18), transparent 26%),
-      linear-gradient(135deg, rgba(91, 33, 182, 0.10), rgba(217, 70, 239, 0.08));
-    border: 1px solid rgba(139, 92, 246, 0.16);
-    margin-bottom: 1rem;
-  }
-
-  .course-hero h3 {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    letter-spacing: -0.05em;
-    color: var(--ink);
-    margin-bottom: 0.25rem;
-  }
-
-  .course-hero p {
-    color: var(--ink-muted);
-    font-weight: 700;
-    line-height: 1.5;
-  }
-
-  .course-status {
-    justify-self: end;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 120px;
-    padding: 0.65rem 0.9rem;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .course-status.good { background: var(--green-soft); color: #15803d; }
-  .course-status.mid { background: var(--amber-soft); color: #b45309; }
-  .course-status.risk { background: var(--red-soft); color: #b91c1c; }
-
-  .range-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.8rem;
     margin-top: 1rem;
   }
 
-  .range-card {
-    border: 1px solid var(--border);
-    border-radius: 18px;
+  .unit-card {
     padding: 1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
     background: rgba(255, 255, 255, 0.72);
   }
 
-  .range-card strong {
-    display: block;
+  .unit-card h4 {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: 2rem;
-    letter-spacing: -0.05em;
-    color: var(--ink);
-    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    margin-bottom: 0.7rem;
   }
 
-  .range-card span {
+  .unit-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .unit-stats div {
+    padding: 0.65rem;
+    border-radius: 12px;
+    background: rgba(237, 233, 254, 0.62);
+  }
+
+  .unit-stats strong {
+    display: block;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: 1.35rem;
+  }
+
+  .unit-stats span {
+    display: block;
+    margin-top: 0.15rem;
     color: var(--ink-muted);
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 800;
   }
 
-  .course-note {
-    margin-top: 1rem;
-    padding: 0.9rem 1rem;
-    border-radius: 16px;
+  .note {
+    margin-top: 0.85rem;
+    padding: 0.85rem 0.95rem;
+    border-radius: 14px;
     background: rgba(237, 233, 254, 0.58);
     color: var(--ink-soft);
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     font-weight: 700;
-    line-height: 1.55;
+    line-height: 1.5;
   }
 
-  /* RESPONSIVE */
+  .downloads {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .download-card {
+    min-height: 150px;
+    padding: 1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .download-card h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    margin-bottom: 0.45rem;
+  }
+
+  .download-card p {
+    color: var(--ink-muted);
+    font-size: 0.86rem;
+    font-weight: 650;
+    line-height: 1.5;
+  }
+
+  .state-msg {
+    padding: 2rem;
+    text-align: center;
+    color: var(--ink-faint);
+    font-weight: 800;
+  }
+
   @media (max-width: 980px) {
-    .top-nav {
-      border-radius: 24px;
-      align-items: stretch;
-      flex-wrap: wrap;
-    }
-
-    .nav-brand {
-      flex: 1;
-      justify-content: center;
-    }
-
-    .nav-links {
-      width: 100%;
-      flex-basis: 100%;
-      order: 3;
-    }
-
-    .nav-actions {
-      flex: 0 0 auto;
-      justify-content: flex-end;
-    }
-
-    header {
-      grid-template-columns: 1fr;
-      min-height: 390px;
-    }
-
+    .top-nav { border-radius: 24px; flex-wrap: wrap; align-items: stretch; }
+    .brand { flex: 1; justify-content: center; }
+    .nav-links { order: 3; flex-basis: 100%; }
     .metrics-grid { grid-template-columns: repeat(2, minmax(170px, 1fr)); }
-    .charts-grid { grid-template-columns: 1fr; }
-    .chart-wrap { height: 260px; }
+    .dashboard-grid, .downloads { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 700px) {
-    .top-nav {
-      width: calc(100% - 20px);
-      margin-top: 10px;
-      top: 8px;
-    }
-
-    .nav-actions {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr;
-    }
-
-    .last-updated-pill {
-      justify-content: center;
-      width: 100%;
-    }
-
-    .nav-refresh {
-      width: 100%;
-    }
-
-    header {
-      margin: 10px;
-      border-radius: 22px;
-      min-height: 360px;
-      padding: 1.2rem;
-    }
-
+    .top-nav { width: calc(100% - 20px); top: 8px; margin-top: 10px; }
+    .nav-actions { width: 100%; display: grid; grid-template-columns: 1fr; }
+    .last-updated, .nav-refresh { width: 100%; text-align: center; }
+    header { margin: 10px; min-height: 340px; padding: 1.2rem; border-radius: 22px; }
     main { padding: 0 10px 1.5rem; }
-    .metrics-grid { grid-template-columns: 1fr; }
-    header h1 { font-size: clamp(2.2rem, 13vw, 3.25rem); }
-    .hero-subtitle { font-size: 0.96rem; }
-    .course-hero { grid-template-columns: 1fr; }
-    .course-status { justify-self: start; }
-    .range-grid { grid-template-columns: 1fr; }
+    .metrics-grid, .unit-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
-
 <nav class="top-nav" aria-label="Navegación principal">
-  <a class="nav-brand" href="#inicio"><span>✦</span> Vito Cósmico</a>
+  <a class="brand" href="#inicio"><span>✦</span> Vito Cósmico</a>
   <div class="nav-links">
-    <a class="nav-link active" href="#notas">Notas</a>
-    <a class="nav-link" href="#explorador-cursos">Cursos</a>
-    <a class="nav-link soon" href="#proximamente">Conductual</a>
-    <a class="nav-link soon" href="#proximamente">Socioemocional</a>
-    <a class="nav-link soon" href="#proximamente">Puestos</a>
-    <a class="nav-link soon" href="#proximamente">Reportes</a>
+    <a class="nav-link active" href="#resumen">Resumen</a>
+    <a class="nav-link" href="#cursos">Cursos</a>
+    <a class="nav-link" href="#unidades">Unidades</a>
+    <a class="nav-link" href="#descargas">Descargas</a>
   </div>
   <div class="nav-actions">
-    <span class="last-updated-pill">Última actualización: <strong id="last-updated">—</strong></span>
-    <button class="nav-refresh" id="refreshBtn" onclick="loadAll()">
-      <span id="spin">↻</span> Actualizar
-    </button>
+    <span class="last-updated">Actualizado: <strong id="last-updated">-</strong></span>
+    <button id="refreshBtn" class="nav-refresh" onclick="loadAll()"><span id="spin">↻</span> Actualizar</button>
   </div>
 </nav>
 
-<div class="hidden-system" aria-hidden="true">
-  <div id="chips-container"></div>
-  <div id="sheet-rows"></div>
-</div>
-
 <header id="inicio">
-  <div class="hero-copy">
-    <div class="eyebrow"><span></span> Vito Cósmico · Panel docente personal</div>
-    <h1>Observatorio <em>Académico</em><br>de Vito Cósmico</h1>
-    <p class="hero-subtitle">Seguimiento de notas, rendimiento y análisis de cursos en un solo espacio.</p>
+  <div>
+    <div class="eyebrow"><span></span> Vito Cósmico · Panel público agregado</div>
+    <h1>Observatorio <em>Académico</em><br>por cursos y unidades</h1>
+    <p class="hero-subtitle">Resumen general sin nombres de estudiantes, con análisis basado en notas finales de unidad y seguimiento de procesos incompletos.</p>
   </div>
 </header>
 
 <main>
-
-  <!-- METRICS -->
-  <div class="metrics-grid" id="metrics-grid">
-    <div class="state-msg" style="grid-column:1/-1">Cargando datos…</div>
+  <div class="notice">
+    Privacidad: esta página no muestra nombres ni correos. Para una publicación realmente segura, usa como fuente una pestaña CSV sanitizada, porque una URL pública de Google Sheets puede ser inspeccionada desde el navegador.
   </div>
 
-  <!-- CHARTS -->
-  <div class="section" id="notas">
+  <section id="resumen" class="section">
     <div class="section-header">
-      <h2>Panorama por curso</h2>
-      <span>Escala chilena 1,0 – 7,0</span>
+      <h2>Resumen principal</h2>
+      <span>Vista pública</span>
     </div>
-    <div class="charts-grid">
+    <div id="metrics-grid" class="metrics-grid">
+      <div class="state-msg" style="grid-column:1/-1">Cargando datos...</div>
+    </div>
+    <div class="dashboard-grid">
       <div class="chart-card">
-        <p class="chart-title">Promedio por curso</p>
-        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
-        <div class="legend" id="bar-legend"></div>
+        <p class="chart-title">Promedio final por curso</p>
+        <div class="chart-wrap"><canvas id="courseChart"></canvas></div>
       </div>
-      <div class="chart-card">
-        <p class="chart-title">Distribución por rendimiento</p>
-        <div class="chart-wrap"><canvas id="stackChart"></canvas></div>
-        <div class="legend">
-          <span><span class="legend-dot" style="background:#22c55e"></span>5,5 – 7,0</span>
-          <span><span class="legend-dot" style="background:#f59e0b"></span>4,0 – 5,4</span>
-          <span><span class="legend-dot" style="background:#ef4444"></span>Bajo 4,0</span>
-        </div>
+      <div class="panel">
+        <h3>Lecturas rápidas</h3>
+        <div id="insight-list" class="stack"></div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- TABLE -->
-  <div class="section" id="cursos">
+  <section id="cursos" class="section">
     <div class="section-header">
-      <h2>Detalle por curso</h2>
-      <span id="total-est-label"></span>
+      <h2>Análisis por curso</h2>
+      <span>Agregado, sin estudiantes</span>
     </div>
     <div class="table-card">
       <div class="table-scroll">
@@ -884,116 +615,192 @@
             <tr>
               <th>Curso</th>
               <th>Total</th>
-              <th>Con nota</th>
-              <th>Promedio</th>
-              <th>Mín</th>
-              <th>Máx</th>
+              <th>Tipo</th>
+              <th>Finales cerradas</th>
+              <th>Promedio final</th>
               <th>Bajo 4,0</th>
-              <th>4,0 – 5,4</th>
+              <th>4,0-5,4</th>
               <th>5,5+</th>
-              <th>Distribución</th>
+              <th>Procesos sin final</th>
               <th>Estado</th>
             </tr>
           </thead>
-          <tbody id="table-body">
-            <tr><td colspan="11" class="state-msg">Sin datos</td></tr>
+          <tbody id="course-table">
+            <tr><td colspan="10" class="state-msg">Sin datos</td></tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- COURSE EXPLORER -->
-  <div class="section" id="explorador-cursos">
+  <section id="unidades" class="section">
     <div class="section-header">
-      <h2>Explorador de cursos</h2>
-      <span>Vista individual</span>
+      <h2>Resumen por unidad</h2>
+      <span>Finales y procesos</span>
     </div>
-
-    <div class="course-tabs" id="course-tabs"></div>
-
-    <div class="course-detail-card" id="course-detail">
-      <p class="state-msg">Cargando vista del curso…</p>
+    <div class="dashboard-grid">
+      <div class="chart-card">
+        <p class="chart-title">Estado de unidades</p>
+        <div class="chart-wrap"><canvas id="unitStateChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <p class="chart-title">Distribución de notas finales</p>
+        <div class="chart-wrap"><canvas id="distributionChart"></canvas></div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div id="proximamente" class="section" style="display:none"></div>
+  <section class="section">
+    <div class="section-header">
+      <h2>Explorador de curso</h2>
+      <span>Detalle agregado</span>
+    </div>
+    <div id="course-tabs" class="tabs"></div>
+    <div id="course-detail" class="panel">
+      <p class="state-msg">Cargando vista del curso...</p>
+    </div>
+  </section>
 
+  <section id="descargas" class="section">
+    <div class="section-header">
+      <h2>Descargas</h2>
+      <span>Espacio preparado</span>
+    </div>
+    <div class="panel">
+      <div class="downloads">
+        <div class="download-card">
+          <h3>Informes por curso</h3>
+          <p>Espacio para publicar PDF o planillas generadas por curso, sin información personal visible.</p>
+        </div>
+        <div class="download-card">
+          <h3>Material de apoyo</h3>
+          <p>Guías, rúbricas, resúmenes de unidad o archivos de refuerzo para cada nivel.</p>
+        </div>
+        <div class="download-card">
+          <h3>Reportes históricos</h3>
+          <p>Archivo semestral para comparar avances generales entre unidades y cursos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <script>
-// ── CONFIGURATION ──────────────────────────────────────────────
-// Edita este objeto para agregar o quitar hojas
-let SHEETS = JSON.parse(localStorage.getItem('dashboard_sheets') || 'null') || [
-  { name: '1ro A',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=44483619&single=true&output=csv',    nameCol: 1, gradeCol: 2 },
-  { name: '1ro B',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=134238669&single=true&output=csv',   nameCol: 1, gradeCol: 2 },
-  { name: '2do A - M', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=69786274&single=true&output=csv',    nameCol: 1, gradeCol: 2 },
-  { name: '2do A - F', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=1628540739&single=true&output=csv', nameCol: 1, gradeCol: 2 },
-  { name: '2do B - M', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=49988213&single=true&output=csv',   nameCol: 1, gradeCol: 2 },
-  { name: '2do B - F', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=167905199&single=true&output=csv', nameCol: 1, gradeCol: 2 },
-  { name: '3ro A',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=67978648&single=true&output=csv',   nameCol: 1, gradeCol: 2 },
-  { name: '3ro B',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=2134963920&single=true&output=csv', nameCol: 1, gradeCol: 2 },
-  { name: '4to A',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=826713255&single=true&output=csv',  nameCol: 1, gradeCol: 2 },
-  { name: '4to B',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=1300678134&single=true&output=csv', nameCol: 1, gradeCol: 2 },
+const SHEETS = [
+  {
+    name: '1ro A',
+    type: 'unidad',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=44483619&single=true&output=csv',
+    listCol: 0,
+    units: [
+      { name: 'Unidad 1', processCols: [2, 3], finalCol: 4 },
+      { name: 'Unidad 2', processCols: [5, 6], finalCol: 7 }
+    ]
+  },
+  {
+    name: '1ro B',
+    type: 'unidad',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=134238669&single=true&output=csv',
+    listCol: 0,
+    units: [{ name: 'Unidad 1', processCols: [2, 3], finalCol: 4 }]
+  },
+  {
+    name: '2do A - M',
+    type: 'unidad',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=69786274&single=true&output=csv',
+    listCol: 0,
+    units: [
+      { name: 'Unidad 1', processCols: [2, 3, 4, 5, 6], finalCol: 7 },
+      { name: 'Unidad 2', processCols: [8, 9, 10], finalCol: 11 }
+    ]
+  },
+  {
+    name: '2do A - F',
+    type: 'unidad',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=1628540739&single=true&output=csv',
+    listCol: 0,
+    units: [
+      { name: 'Unidad 1', processCols: [2, 3], finalCol: 4 },
+      { name: 'Unidad 2', processCols: [5, 6], finalCol: 7 }
+    ]
+  },
+  {
+    name: '2do B - M',
+    type: 'unidad',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=49988213&single=true&output=csv',
+    listCol: 0,
+    units: [
+      { name: 'Unidad 1', processCols: [2, 3, 4, 5, 6], finalCol: 7 },
+      { name: 'Unidad 2', processCols: [8, 9, 10], finalCol: 11 }
+    ]
+  },
+  {
+    name: '2do B - F',
+    type: 'unidad',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=167905199&single=true&output=csv',
+    listCol: 0,
+    units: [
+      { name: 'Unidad 1', processCols: [2, 3], finalCol: 4 },
+      { name: 'Unidad 2', processCols: [5, 6], finalCol: 7 }
+    ]
+  },
+  {
+    name: '3ro A',
+    type: 'unidad',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=67978648&single=true&output=csv',
+    listCol: 0,
+    units: [
+      { name: 'Unidad 1', processCols: [2, 3], finalCol: 4 },
+      { name: 'Unidad 2', processCols: [5, 6], finalCol: 7 }
+    ],
+    extraCols: [{ name: 'PAES', col: 8 }]
+  },
+  {
+    name: '3ro B',
+    type: 'unidad',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=2134963920&single=true&output=csv',
+    listCol: 0,
+    units: [
+      { name: 'Unidad 1', processCols: [2, 3], finalCol: 4 },
+      { name: 'Unidad 2', processCols: [5, 6], finalCol: 7 }
+    ]
+  },
+  {
+    name: '4to A',
+    type: 'paes',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=826713255&single=true&output=csv',
+    listCol: 3,
+    paesCols: [0, 5]
+  },
+  {
+    name: '4to B',
+    type: 'paes',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=1300678134&single=true&output=csv',
+    listCol: 3,
+    paesCols: [0, 1, 2, 5]
+  }
 ];
 
-// ── STATE ───────────────────────────────────────────────────────
-let barChartInst = null, stackChartInst = null;
-let allCourseData = [];
+let allData = [];
+let courseChart = null;
+let unitStateChart = null;
+let distributionChart = null;
 
-// ── HELPERS ─────────────────────────────────────────────────────
-function fmtGrade(value) {
-  if (value === null || value === undefined || isNaN(value)) return '—';
-  return (value / 10).toFixed(1).replace('.', ',');
-}
-
-function fmtPct(value) {
-  return value.toString().replace('.', ',') + '%';
-}
-
-// ── SHEET ROW UI ─────────────────────────────────────────────────
-function renderSheetRows() {
-  const container = document.getElementById('sheet-rows');
-  if (!container) return;
-  container.innerHTML = '';
-  SHEETS.forEach((s, i) => {
-    const row = document.createElement('div');
-    row.className = 'sheet-row';
-    row.innerHTML = `
-      <input type="text" class="name-in" placeholder="Nombre (ej: 1ro A)" value="${s.name}" oninput="SHEETS[${i}].name=this.value">
-      <input type="text" class="url-in" placeholder="URL CSV de Google Sheets" value="${s.url}" oninput="SHEETS[${i}].url=this.value">
-      <button class="btn-remove" onclick="removeSheet(${i})" title="Eliminar">×</button>
-    `;
-    container.appendChild(row);
-  });
-}
-
-function addSheetRow() {
-  SHEETS.push({ name: '', url: '', nameCol: 1, gradeCol: 2 });
-  renderSheetRows();
-}
-
-function removeSheet(i) {
-  SHEETS.splice(i, 1);
-  renderSheetRows();
-}
-
-function saveAndLoad() {
-  localStorage.setItem('dashboard_sheets', JSON.stringify(SHEETS));
-  loadAll();
-}
-
-// ── CSV PARSE ────────────────────────────────────────────────────
 function parseCSV(text) {
   text = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   return text.trim().split('\n').map(line => {
     const cells = [];
-    let cur = '', inQ = false;
+    let cur = '';
+    let inQ = false;
     for (let i = 0; i < line.length; i++) {
       const ch = line[i];
       if (ch === '"') {
-        if (inQ && line[i+1] === '"') { cur += '"'; i++; }
-        else inQ = !inQ;
+        if (inQ && line[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else {
+          inQ = !inQ;
+        }
       } else if (ch === ',' && !inQ) {
         cells.push(cur.trim());
         cur = '';
@@ -1006,363 +813,430 @@ function parseCSV(text) {
   });
 }
 
-function findDataStart(rows) {
-  for (let i = 0; i < rows.length; i++) {
-    const v = parseFloat(rows[i][0]);
-    if (!isNaN(v) && v >= 1 && v <= 200) return i;
-  }
-  return 3;
+function parseNumber(value) {
+  const raw = String(value ?? '').trim().replace(',', '.');
+  if (!raw || raw.includes('#')) return null;
+  const num = parseFloat(raw);
+  return Number.isFinite(num) ? num : null;
 }
 
-// ── FETCH ONE SHEET ──────────────────────────────────────────────
-async function fetchSheet(sheet) {
-  const resp = await fetch(sheet.url);
-  if (!resp.ok) throw new Error('HTTP ' + resp.status);
-  const text = await resp.text();
-  const rows = parseCSV(text);
-
-  const nameCol  = sheet.nameCol  ?? 1;
-  const gradeCol = sheet.gradeCol ?? 2;
-  const startRow = findDataStart(rows);
-
-  const grades = [];
-  const students = [];
-
-  for (let i = startRow; i < rows.length; i++) {
-    const row = rows[i];
-    if (!row || row.length < 2) continue;
-    const idx = parseFloat(row[0]);
-    if (isNaN(idx) || idx < 1) continue;
-    const name  = row[nameCol] || '';
-    const raw   = (row[gradeCol] || '').replace(',', '.').trim();
-    const grade = parseFloat(raw);
-    if (name) students.push(name);
-    if (!isNaN(grade) && grade >= 0 && grade <= 100) grades.push(grade);
-  }
-
-  const n   = grades.length;
-  const avg = n ? grades.reduce((a,b)=>a+b,0)/n : null;
-  const min = n ? Math.min(...grades) : null;
-  const max = n ? Math.max(...grades) : null;
-  const b40 = grades.filter(g=>g<40).length;
-  const m54 = grades.filter(g=>g>=40&&g<55).length;
-  const a55 = grades.filter(g=>g>=55).length;
-
-  console.log(`[${sheet.name}] startRow=${startRow}, estudiantes=${students.length}, con nota=${n}, avg=${avg?.toFixed(1)}`);
-
-  return { name: sheet.name, total: students.length, conNota: n, avg, min, max, b40, m54, a55, grades };
+function parseGrade(value) {
+  const num = parseNumber(value);
+  if (num === null || num <= 0) return null;
+  if (num >= 1 && num <= 7) return Math.round(num * 10);
+  if (num >= 10 && num <= 70) return Math.round(num);
+  return null;
 }
 
-// ── CHIPS ────────────────────────────────────────────────────────
-function setChip(name, state) {
-  let chip = document.getElementById('chip-' + name);
-  if (!chip) {
-    chip = document.createElement('span');
-    chip.id = 'chip-' + name;
-    chip.className = 'sheet-chip';
-    chip.textContent = name;
-    document.getElementById('chips-container').appendChild(chip);
-  }
-  chip.className = 'sheet-chip ' + state;
+function parsePaes(value) {
+  const num = parseNumber(value);
+  return num !== null && num >= 100 && num <= 1000 ? num : null;
 }
 
-// ── RENDER ───────────────────────────────────────────────────────
+function isStudentRow(row, listCol) {
+  const n = parseNumber(row[listCol]);
+  return n !== null && n >= 1 && n <= 200;
+}
+
+function average(values) {
+  const clean = values.filter(v => v !== null && Number.isFinite(v));
+  return clean.length ? clean.reduce((a, b) => a + b, 0) / clean.length : null;
+}
+
+function fmtGrade(value) {
+  return value === null || value === undefined || isNaN(value)
+    ? '-'
+    : (value / 10).toFixed(1).replace('.', ',');
+}
+
+function fmtNumber(value) {
+  return value === null || value === undefined || isNaN(value)
+    ? '-'
+    : Math.round(value).toLocaleString('es-CL');
+}
+
+function pct(part, total) {
+  return total ? Math.round(part / total * 100) : 0;
+}
+
+function summarizeGrades(grades) {
+  return {
+    count: grades.length,
+    avg: average(grades),
+    low: grades.filter(g => g < 40).length,
+    mid: grades.filter(g => g >= 40 && g < 55).length,
+    high: grades.filter(g => g >= 55).length
+  };
+}
+
+async function fetchCourse(config) {
+  const resp = await fetch(config.url);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  const rows = parseCSV(await resp.text());
+  const dataRows = rows.filter(row => isStudentRow(row, config.listCol));
+
+  if (config.type === 'paes') return summarizePaesCourse(config, dataRows);
+  return summarizeUnitCourse(config, dataRows);
+}
+
+function summarizeUnitCourse(config, rows) {
+  const unitSummaries = config.units.map(unit => {
+    let closed = 0;
+    let processWithoutFinal = 0;
+    let empty = 0;
+    const finals = [];
+
+    rows.forEach(row => {
+      const processCount = unit.processCols.map(col => parseGrade(row[col])).filter(v => v !== null).length;
+      const finalGrade = parseGrade(row[unit.finalCol]);
+
+      if (finalGrade !== null) {
+        closed++;
+        finals.push(finalGrade);
+      } else if (processCount > 0) {
+        processWithoutFinal++;
+      } else {
+        empty++;
+      }
+    });
+
+    return {
+      name: unit.name,
+      closed,
+      processWithoutFinal,
+      empty,
+      ...summarizeGrades(finals)
+    };
+  });
+
+  const studentFinalAverages = rows.map(row => {
+    const finals = config.units.map(unit => parseGrade(row[unit.finalCol])).filter(v => v !== null);
+    return average(finals);
+  }).filter(v => v !== null);
+
+  const summary = summarizeGrades(studentFinalAverages);
+  const incomplete = unitSummaries.reduce((sum, u) => sum + u.processWithoutFinal, 0);
+  const closedFinals = unitSummaries.reduce((sum, u) => sum + u.closed, 0);
+  const emptyUnits = unitSummaries.reduce((sum, u) => sum + u.empty, 0);
+
+  return {
+    name: config.name,
+    type: 'unidad',
+    total: rows.length,
+    avg: summary.avg,
+    low: summary.low,
+    mid: summary.mid,
+    high: summary.high,
+    closedFinals,
+    incomplete,
+    emptyUnits,
+    unitSummaries
+  };
+}
+
+function summarizePaesCourse(config, rows) {
+  const scoresByRow = rows.map(row => config.paesCols.map(col => parsePaes(row[col])).filter(v => v !== null));
+  const rowAverages = scoresByRow.map(scores => average(scores)).filter(v => v !== null);
+  const allScores = scoresByRow.flat();
+
+  return {
+    name: config.name,
+    type: 'paes',
+    total: rows.length,
+    avg: average(rowAverages),
+    low: rowAverages.filter(v => v < 450).length,
+    mid: rowAverages.filter(v => v >= 450 && v < 600).length,
+    high: rowAverages.filter(v => v >= 600).length,
+    closedFinals: allScores.length,
+    incomplete: scoresByRow.filter(scores => scores.length === 0).length,
+    emptyUnits: 0,
+    unitSummaries: [{
+      name: 'Ensayos PAES',
+      closed: allScores.length,
+      processWithoutFinal: 0,
+      empty: scoresByRow.filter(scores => scores.length === 0).length,
+      count: allScores.length,
+      avg: average(allScores),
+      low: allScores.filter(v => v < 450).length,
+      mid: allScores.filter(v => v >= 450 && v < 600).length,
+      high: allScores.filter(v => v >= 600).length
+    }]
+  };
+}
+
+function courseStatus(course) {
+  if (course.avg === null) return ['Sin datos', 'badge-gray'];
+  if (course.type === 'paes') {
+    if (course.avg >= 600) return ['Alto', 'badge-green'];
+    if (course.avg >= 450) return ['Medio', 'badge-amber'];
+    return ['Atención', 'badge-red'];
+  }
+  if (course.avg >= 55) return ['Bueno', 'badge-green'];
+  if (course.avg >= 45) return ['Regular', 'badge-amber'];
+  return ['Atención', 'badge-red'];
+}
+
 function renderMetrics(data) {
-  const totalEst = data.reduce((a,d)=>a+d.total,0);
-  const totalNota = data.reduce((a,d)=>a+d.conNota,0);
-  const totalB40 = data.reduce((a,d)=>a+d.b40,0);
-  const pctB40 = totalNota ? Math.round(totalB40/totalNota*100) : 0;
-  const avgs = data.filter(d=>d.avg!==null).map(d=>d.avg);
-  const globalAvgNumber = avgs.length ? avgs.reduce((a,b)=>a+b,0)/avgs.length : null;
-  const globalAvg = globalAvgNumber !== null ? fmtGrade(globalAvgNumber) : '—';
-  const approved = totalNota - totalB40;
-  const pctApproved = totalNota ? Math.round(approved/totalNota*100) : 0;
-
-  const clsAvg = globalAvgNumber >= 55 ? 'green' : globalAvgNumber >= 45 ? 'amber' : 'red';
-  const clsB40 = pctB40 <= 20 ? 'green' : pctB40 <= 35 ? 'amber' : 'red';
-  const clsApproved = pctApproved >= 80 ? 'green' : pctApproved >= 65 ? 'amber' : 'red';
+  const totalStudents = data.reduce((sum, c) => sum + c.total, 0);
+  const unitCourses = data.filter(c => c.type === 'unidad');
+  const paesCourses = data.filter(c => c.type === 'paes');
+  const unitAvg = average(unitCourses.map(c => c.avg).filter(v => v !== null));
+  const paesAvg = average(paesCourses.map(c => c.avg).filter(v => v !== null));
+  const incomplete = data.reduce((sum, c) => sum + c.incomplete, 0);
+  const risk = unitCourses.reduce((sum, c) => sum + c.low, 0) + paesCourses.reduce((sum, c) => sum + c.low, 0);
 
   document.getElementById('metrics-grid').innerHTML = `
-    <div class="metric-card neutral">
+    <div class="metric-card">
       <p class="metric-label">Cursos cargados</p>
       <p class="metric-value">${data.length}</p>
-      <p class="metric-sub">de ${SHEETS.length} configuradas</p>
+      <p class="metric-sub">${totalStudents} estudiantes contados sin mostrar nombres</p>
     </div>
-    <div class="metric-card ${clsApproved}">
-      <p class="metric-label">Aprobación</p>
-      <p class="metric-value">${pctApproved}%</p>
-      <p class="metric-sub">${approved} de ${totalNota} con nota</p>
+    <div class="metric-card ${unitAvg >= 55 ? 'green' : unitAvg >= 45 ? 'amber' : 'red'}">
+      <p class="metric-label">Promedio unidades</p>
+      <p class="metric-value">${fmtGrade(unitAvg)}</p>
+      <p class="metric-sub">solo notas finales cerradas</p>
     </div>
-    <div class="metric-card ${clsAvg}">
-      <p class="metric-label">Promedio global</p>
-      <p class="metric-value">${globalAvg}</p>
-      <p class="metric-sub">escala 1,0 a 7,0</p>
+    <div class="metric-card ${paesAvg >= 600 ? 'green' : paesAvg >= 450 ? 'amber' : 'red'}">
+      <p class="metric-label">Promedio PAES</p>
+      <p class="metric-value">${fmtNumber(paesAvg)}</p>
+      <p class="metric-sub">4° medio se mantiene separado</p>
     </div>
-    <div class="metric-card ${clsB40}">
-      <p class="metric-label">Riesgo académico</p>
-      <p class="metric-value">${pctB40}%</p>
-      <p class="metric-sub">${totalB40} estudiantes bajo 4,0</p>
+    <div class="metric-card ${incomplete === 0 ? 'green' : incomplete <= 10 ? 'amber' : 'red'}">
+      <p class="metric-label">Procesos sin final</p>
+      <p class="metric-value">${incomplete}</p>
+      <p class="metric-sub">${risk} casos agregados en zona de atención</p>
     </div>
   `;
-  document.getElementById('total-est-label').textContent = `${totalNota} estudiantes con nota registrada`;
 }
 
-function renderCharts(data) {
-  const labels = data.map(d=>d.name);
-  const avgs   = data.map(d=>d.avg !== null ? d.avg / 10 : 0);
-  const colors = data.map(d=>d.avg>=55?'#22c55e':d.avg>=40?'#f59e0b':'#ef4444');
+function renderCourseTable(data) {
+  const tbody = document.getElementById('course-table');
+  tbody.innerHTML = data.map(course => {
+    const [label, badgeClass] = courseStatus(course);
+    const total = course.low + course.mid + course.high;
+    const avgText = course.type === 'paes' ? fmtNumber(course.avg) : fmtGrade(course.avg);
+    const typeText = course.type === 'paes' ? 'PAES' : 'Unidades';
 
-  if (barChartInst) barChartInst.destroy();
-  barChartInst = new Chart(document.getElementById('barChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Promedio',
-        data: avgs,
-        backgroundColor: colors,
-        borderRadius: 14,
-        borderSkipped: false,
-        maxBarThickness: 54
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: '#0f172a',
-          padding: 12,
-          cornerRadius: 12,
-          callbacks: { label: ctx=>' Promedio: '+ctx.raw.toFixed(1).replace('.', ',') }
-        }
-      },
-      scales: {
-        y: {
-          min:0,
-          max:7,
-          ticks:{ stepSize:1, color:'#746493', font:{weight:'700'} },
-          grid:{ color:'rgba(139,92,246,0.14)' },
-          border:{ display:false }
-        },
-        x: {
-          grid:{ display:false },
-          ticks:{ color:'#746493', font:{size:11, weight:'700'} },
-          border:{ display:false }
-        }
-      }
-    }
-  });
-
-  if (stackChartInst) stackChartInst.destroy();
-  stackChartInst = new Chart(document.getElementById('stackChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        { label:'5,5+',       data:data.map(d=>d.a55), backgroundColor:'#22c55e', borderRadius: 8, borderSkipped: false },
-        { label:'4,0–5,4',    data:data.map(d=>d.m54), backgroundColor:'#f59e0b', borderRadius: 8, borderSkipped: false },
-        { label:'Bajo 4,0',   data:data.map(d=>d.b40), backgroundColor:'#ef4444', borderRadius: 8, borderSkipped: false },
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend:{ display:false },
-        tooltip:{
-          backgroundColor: '#0f172a',
-          padding: 12,
-          cornerRadius: 12,
-          callbacks:{ label:ctx=>' '+ctx.dataset.label+': '+ctx.raw }
-        }
-      },
-      scales: {
-        y: {
-          stacked:true,
-          grid:{ color:'rgba(139,92,246,0.14)' },
-          ticks:{ color:'#746493', font:{weight:'700'} },
-          border:{ display:false }
-        },
-        x: {
-          stacked:true,
-          grid:{ display:false },
-          ticks:{ color:'#746493', font:{size:11, weight:'700'} },
-          border:{ display:false }
-        }
-      }
-    }
-  });
-}
-
-function renderTable(data) {
-  const tbody = document.getElementById('table-body');
-  if (!data.length) {
-    tbody.innerHTML = '<tr><td colspan="11" class="state-msg">No hay datos cargados</td></tr>';
-    return;
-  }
-  tbody.innerHTML = data.map(d => {
-    const pct40 = d.conNota ? Math.round(d.b40/d.conNota*100) : 0;
-    const pct54 = d.conNota ? Math.round(d.m54/d.conNota*100) : 0;
-    const pct55 = d.conNota ? Math.round(d.a55/d.conNota*100) : 0;
-    const badge = d.avg >= 55
-      ? `<span class="badge badge-green">Bueno</span>`
-      : d.avg >= 45
-      ? `<span class="badge badge-amber">Regular</span>`
-      : d.avg !== null
-      ? `<span class="badge badge-red">Atención</span>`
-      : `<span class="badge badge-gray">Sin datos</span>`;
-    const bar = d.conNota ? `
-      <div class="pct-bar" title="Verde: 5,5+ | Amarillo: 4,0-5,4 | Rojo: bajo 4,0">
-        <div class="pct-seg" style="width:${pct55}%;background:#22c55e"></div>
-        <div class="pct-seg" style="width:${pct54}%;background:#f59e0b"></div>
-        <div class="pct-seg" style="width:${pct40}%;background:#ef4444"></div>
-      </div>` : '—';
-    return `<tr>
-      <td class="curso-name">${d.name}</td>
-      <td>${d.total}</td>
-      <td>${d.conNota}</td>
-      <td><strong>${fmtGrade(d.avg)}</strong></td>
-      <td>${fmtGrade(d.min)}</td>
-      <td>${fmtGrade(d.max)}</td>
-      <td style="color:#b91c1c">${d.b40} <small style="color:#94a3b8">(${pct40}%)</small></td>
-      <td style="color:#b45309">${d.m54} <small style="color:#94a3b8">(${pct54}%)</small></td>
-      <td style="color:#15803d">${d.a55} <small style="color:#94a3b8">(${pct55}%)</small></td>
-      <td style="min-width:110px">${bar}</td>
-      <td>${badge}</td>
-    </tr>`;
+    return `
+      <tr>
+        <td class="course-name">${course.name}</td>
+        <td>${course.total}</td>
+        <td>${typeText}</td>
+        <td>${course.closedFinals}</td>
+        <td><strong>${avgText}</strong></td>
+        <td style="color:#b91c1c">${course.low} <small>(${pct(course.low, total)}%)</small></td>
+        <td style="color:#b45309">${course.mid} <small>(${pct(course.mid, total)}%)</small></td>
+        <td style="color:#15803d">${course.high} <small>(${pct(course.high, total)}%)</small></td>
+        <td>${course.incomplete}</td>
+        <td><span class="badge ${badgeClass}">${label}</span></td>
+      </tr>
+    `;
   }).join('');
 }
 
-function renderCourseTabs(selectedName = '1ro A') {
-  const container = document.getElementById('course-tabs');
-  if (!container) return;
+function renderInsights(data) {
+  const incompleteCourses = [...data].sort((a, b) => b.incomplete - a.incomplete).slice(0, 4);
+  const riskCourses = [...data].sort((a, b) => b.low - a.low).slice(0, 4);
 
-  container.innerHTML = allCourseData.map(course => `
-    <button class="course-tab ${course.name === selectedName ? 'active' : ''}" onclick="renderCourseDetail('${course.name.replace(/'/g, "\'")}')">
-      ${course.name}
-    </button>
+  const items = [
+    ...incompleteCourses.filter(c => c.incomplete > 0).map(c => `
+      <div class="mini-item">
+        <div><strong>${c.name}</strong><span>Procesos con avance, pero sin nota final</span></div>
+        <span class="badge badge-amber">${c.incomplete}</span>
+      </div>
+    `),
+    ...riskCourses.filter(c => c.low > 0).map(c => `
+      <div class="mini-item">
+        <div><strong>${c.name}</strong><span>Casos agregados en zona de atención</span></div>
+        <span class="badge badge-red">${c.low}</span>
+      </div>
+    `)
+  ];
+
+  document.getElementById('insight-list').innerHTML = items.length
+    ? items.slice(0, 7).join('')
+    : '<p class="state-msg">No hay alertas agregadas con los datos actuales.</p>';
+}
+
+function renderCharts(data) {
+  const unitCourses = data.filter(c => c.type === 'unidad');
+  const courseLabels = unitCourses.map(c => c.name);
+  const courseValues = unitCourses.map(c => c.avg !== null ? c.avg / 10 : 0);
+
+  if (courseChart) courseChart.destroy();
+  courseChart = new Chart(document.getElementById('courseChart'), {
+    type: 'bar',
+    data: {
+      labels: courseLabels,
+      datasets: [{
+        label: 'Promedio final',
+        data: courseValues,
+        backgroundColor: unitCourses.map(c => c.avg >= 55 ? '#22c55e' : c.avg >= 40 ? '#f59e0b' : '#ef4444'),
+        borderRadius: 12,
+        borderSkipped: false
+      }]
+    },
+    options: chartOptions(0, 7, value => value.toFixed(1).replace('.', ','))
+  });
+
+  const unitMap = new Map();
+  unitCourses.forEach(course => {
+    course.unitSummaries.forEach(unit => {
+      const key = unit.name;
+      const current = unitMap.get(key) || { closed: 0, process: 0, empty: 0, low: 0, mid: 0, high: 0 };
+      current.closed += unit.closed;
+      current.process += unit.processWithoutFinal;
+      current.empty += unit.empty;
+      current.low += unit.low;
+      current.mid += unit.mid;
+      current.high += unit.high;
+      unitMap.set(key, current);
+    });
+  });
+
+  const unitLabels = [...unitMap.keys()];
+  const unitValues = [...unitMap.values()];
+
+  if (unitStateChart) unitStateChart.destroy();
+  unitStateChart = new Chart(document.getElementById('unitStateChart'), {
+    type: 'bar',
+    data: {
+      labels: unitLabels,
+      datasets: [
+        { label: 'Final cerrada', data: unitValues.map(u => u.closed), backgroundColor: '#22c55e', borderRadius: 8 },
+        { label: 'Proceso sin final', data: unitValues.map(u => u.process), backgroundColor: '#f59e0b', borderRadius: 8 },
+        { label: 'Sin registro', data: unitValues.map(u => u.empty), backgroundColor: '#ef4444', borderRadius: 8 }
+      ]
+    },
+    options: stackedOptions()
+  });
+
+  if (distributionChart) distributionChart.destroy();
+  distributionChart = new Chart(document.getElementById('distributionChart'), {
+    type: 'bar',
+    data: {
+      labels: unitLabels,
+      datasets: [
+        { label: '5,5+', data: unitValues.map(u => u.high), backgroundColor: '#22c55e', borderRadius: 8 },
+        { label: '4,0-5,4', data: unitValues.map(u => u.mid), backgroundColor: '#f59e0b', borderRadius: 8 },
+        { label: 'Bajo 4,0', data: unitValues.map(u => u.low), backgroundColor: '#ef4444', borderRadius: 8 }
+      ]
+    },
+    options: stackedOptions()
+  });
+}
+
+function chartOptions(min, max, tooltipFormatter) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#0f172a',
+        padding: 12,
+        cornerRadius: 12,
+        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${tooltipFormatter(ctx.raw)}` }
+      }
+    },
+    scales: {
+      y: { min, max, ticks: { color: '#746493', font: { weight: '700' } }, grid: { color: 'rgba(139,92,246,0.14)' }, border: { display: false } },
+      x: { grid: { display: false }, ticks: { color: '#746493', font: { size: 11, weight: '700' } }, border: { display: false } }
+    }
+  };
+}
+
+function stackedOptions() {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, labels: { color: '#746493', font: { weight: '700' } } },
+      tooltip: { backgroundColor: '#0f172a', padding: 12, cornerRadius: 12 }
+    },
+    scales: {
+      y: { stacked: true, ticks: { color: '#746493', font: { weight: '700' } }, grid: { color: 'rgba(139,92,246,0.14)' }, border: { display: false } },
+      x: { stacked: true, ticks: { color: '#746493', font: { size: 11, weight: '700' } }, grid: { display: false }, border: { display: false } }
+    }
+  };
+}
+
+function renderCourseTabs(selectedName) {
+  const selected = selectedName || allData[0]?.name || '';
+  document.getElementById('course-tabs').innerHTML = allData.map(course => `
+    <button class="tab ${course.name === selected ? 'active' : ''}" onclick="renderCourseDetail('${course.name.replace(/'/g, "\\'")}')">${course.name}</button>
   `).join('');
 }
 
-function renderCourseDetail(courseName = '1ro A') {
+function renderCourseDetail(courseName) {
+  const course = allData.find(c => c.name === courseName) || allData[0];
   const container = document.getElementById('course-detail');
-  if (!container) return;
-
-  const course = allCourseData.find(c => c.name === courseName) || allCourseData[0];
   if (!course) {
-    container.innerHTML = '<p class="state-msg">No hay datos disponibles para mostrar.</p>';
+    container.innerHTML = '<p class="state-msg">No hay datos disponibles.</p>';
     return;
   }
 
   renderCourseTabs(course.name);
+  const [label, badgeClass] = courseStatus(course);
+  const avgText = course.type === 'paes' ? fmtNumber(course.avg) : fmtGrade(course.avg);
 
-  const pct40 = course.conNota ? Math.round(course.b40 / course.conNota * 100) : 0;
-  const pct54 = course.conNota ? Math.round(course.m54 / course.conNota * 100) : 0;
-  const pct55 = course.conNota ? Math.round(course.a55 / course.conNota * 100) : 0;
-  const approved = course.conNota - course.b40;
-  const pctApproved = course.conNota ? Math.round(approved / course.conNota * 100) : 0;
+  const units = course.unitSummaries.map(unit => {
+    const avg = course.type === 'paes' ? fmtNumber(unit.avg) : fmtGrade(unit.avg);
+    const riskLabel = course.type === 'paes' ? 'Bajo 450' : 'Bajo 4,0';
 
-  const statusText = course.avg >= 55 ? 'Bueno' : course.avg >= 45 ? 'Regular' : course.avg !== null ? 'Atención' : 'Sin datos';
-  const statusClass = course.avg >= 55 ? 'good' : course.avg >= 45 ? 'mid' : 'risk';
+    return `
+      <div class="unit-card">
+        <h4>${unit.name}</h4>
+        <div class="unit-stats">
+          <div><strong>${avg}</strong><span>Promedio</span></div>
+          <div><strong>${unit.closed}</strong><span>Registros cerrados</span></div>
+          <div><strong>${unit.processWithoutFinal}</strong><span>Proceso sin final</span></div>
+        </div>
+        <div class="note">${riskLabel}: ${unit.low}. Zona media: ${unit.mid}. Zona alta: ${unit.high}.</div>
+      </div>
+    `;
+  }).join('');
 
   container.innerHTML = `
-    <div class="course-hero">
+    <div class="mini-item">
       <div>
-        <h3>${course.name}</h3>
-        <p>Resumen individual del curso en escala chilena 1,0 a 7,0. Esta vista muestra datos agregados, sin exponer nombres de estudiantes.</p>
+        <strong>${course.name}</strong>
+        <span>${course.type === 'paes' ? 'Ensayos PAES separados del promedio de unidades' : 'Promedio calculado solo con notas finales de unidad'}</span>
       </div>
-      <span class="course-status ${statusClass}">${statusText}</span>
+      <span class="badge ${badgeClass}">${label} · ${avgText}</span>
     </div>
-
-    <div class="metrics-grid">
-      <div class="metric-card neutral">
-        <p class="metric-label">Promedio</p>
-        <p class="metric-value">${fmtGrade(course.avg)}</p>
-        <p class="metric-sub">nota general del curso</p>
-      </div>
-      <div class="metric-card ${pctApproved >= 80 ? 'green' : pctApproved >= 65 ? 'amber' : 'red'}">
-        <p class="metric-label">Aprobación</p>
-        <p class="metric-value">${pctApproved}%</p>
-        <p class="metric-sub">${approved} de ${course.conNota} con nota</p>
-      </div>
-      <div class="metric-card red">
-        <p class="metric-label">Bajo 4,0</p>
-        <p class="metric-value">${course.b40}</p>
-        <p class="metric-sub">${pct40}% del curso</p>
-      </div>
-      <div class="metric-card green">
-        <p class="metric-label">5,5 o más</p>
-        <p class="metric-value">${course.a55}</p>
-        <p class="metric-sub">${pct55}% del curso</p>
-      </div>
-    </div>
-
-    <div class="range-grid">
-      <div class="range-card">
-        <strong>${course.b40}</strong>
-        <span>Bajo 4,0 · ${pct40}%</span>
-      </div>
-      <div class="range-card">
-        <strong>${course.m54}</strong>
-        <span>Entre 4,0 y 5,4 · ${pct54}%</span>
-      </div>
-      <div class="range-card">
-        <strong>${course.a55}</strong>
-        <span>Desde 5,5 a 7,0 · ${pct55}%</span>
-      </div>
-    </div>
-
-    <div class="course-note">
-      Lectura rápida: ${course.b40 > 0 ? `hay ${course.b40} estudiante(s) bajo 4,0 que requieren seguimiento o refuerzo.` : 'no se observan estudiantes bajo 4,0 en esta carga.'}
-      ${course.avg !== null && course.avg < 45 ? 'Conviene revisar contenidos base y diseñar una acción remedial breve.' : course.avg >= 55 ? 'El curso muestra un desempeño global positivo.' : 'El curso se mantiene en zona intermedia, con espacio para reforzar y consolidar aprendizajes.'}
-    </div>
+    <div class="unit-grid">${units}</div>
   `;
 }
 
-// ── LOAD ALL ─────────────────────────────────────────────────────
 async function loadAll() {
   const btn = document.getElementById('refreshBtn');
   btn.classList.add('spinning');
-  document.getElementById('chips-container').innerHTML = '';
-  allCourseData = [];
 
-  const promises = SHEETS.filter(s=>s.url).map(async sheet => {
-    setChip(sheet.name, 'loading');
-    try {
-      const data = await fetchSheet(sheet);
-      setChip(sheet.name, 'loaded');
-      return data;
-    } catch(e) {
-      setChip(sheet.name, 'error');
-      console.error('Error cargando', sheet.name, e);
+  try {
+    const results = await Promise.all(SHEETS.map(sheet => fetchCourse(sheet).catch(error => {
+      console.error('Error cargando', sheet.name, error);
       return null;
-    }
-  });
+    })));
 
-  const results = await Promise.all(promises);
-  allCourseData = results.filter(Boolean);
+    allData = results.filter(Boolean);
+    renderMetrics(allData);
+    renderCourseTable(allData);
+    renderInsights(allData);
+    renderCharts(allData);
+    renderCourseTabs(allData[0]?.name);
+    renderCourseDetail(allData[0]?.name);
 
-  renderMetrics(allCourseData);
-  renderCharts(allCourseData);
-  renderTable(allCourseData);
-  renderCourseTabs('1ro A');
-  renderCourseDetail('1ro A');
-
-  const now = new Date();
-  document.getElementById('last-updated').textContent =
-    now.toLocaleTimeString('es-CL', {hour:'2-digit',minute:'2-digit'}) + ' · ' +
-    now.toLocaleDateString('es-CL', {day:'2-digit',month:'short'});
-
-  btn.classList.remove('spinning');
+    const now = new Date();
+    document.getElementById('last-updated').textContent =
+      now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }) + ' · ' +
+      now.toLocaleDateString('es-CL', { day: '2-digit', month: 'short' });
+  } finally {
+    btn.classList.remove('spinning');
+  }
 }
 
-// ── INIT ─────────────────────────────────────────────────────────
-renderSheetRows();
 loadAll();
-
-// Auto-refresh cada 5 minutos
 setInterval(loadAll, 5 * 60 * 1000);
 </script>
 </body>
