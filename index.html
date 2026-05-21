@@ -1,56 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observatorio Académico de Vito Cósmico</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root {
---bg: #fbf7ff;
-    --surface: rgba(255, 255, 255, 0.9);
+  :root {
+    --bg: #fbf7ff;
     --bg-2: #f3e8ff;
     --surface: rgba(255, 255, 255, 0.88);
---surface-solid: #ffffff;
---ink: #221533;
---ink-soft: #3f3158;
---ink-muted: #746493;
---ink-faint: #a898c7;
---cosmic: #5b21b6;
+    --surface-solid: #ffffff;
+    --ink: #221533;
+    --ink-soft: #3f3158;
+    --ink-muted: #746493;
+    --ink-faint: #a898c7;
+    --cosmic: #5b21b6;
     --cosmic-2: #3b0764;
---violet: #8b5cf6;
---violet-2: #a855f7;
---magenta: #d946ef;
-@@ -32,19 +34,23 @@
---shadow: 0 18px 45px rgba(91, 33, 182, 0.16);
---shadow-soft: 0 10px 28px rgba(76, 29, 149, 0.10);
---radius: 22px;
+    --violet: #8b5cf6;
+    --violet-2: #a855f7;
+    --magenta: #d946ef;
+    --cyan: #a78bfa;
+    --star: #facc15;
+    --green: #22c55e;
+    --green-soft: #dcfce7;
+    --amber: #f59e0b;
+    --amber-soft: #fef3c7;
+    --red: #ef4444;
+    --red-soft: #fee2e2;
+    --blue-soft: #ede9fe;
+    --border: rgba(139, 92, 246, 0.18);
+    --shadow: 0 18px 45px rgba(91, 33, 182, 0.16);
+    --shadow-soft: 0 10px 28px rgba(76, 29, 149, 0.10);
+    --radius: 22px;
     --radius-sm: 14px;
-}
+  }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; }
 
-body {
-font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-background:
-      radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.22), transparent 28%),
-      radial-gradient(circle at 82% 10%, rgba(124, 58, 237, 0.18), transparent 30%),
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background:
       radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.24), transparent 28%),
       radial-gradient(circle at 82% 10%, rgba(124, 58, 237, 0.22), transparent 30%),
       radial-gradient(circle at 48% 86%, rgba(217, 70, 239, 0.16), transparent 32%),
-linear-gradient(135deg, #fffaff 0%, #f5edff 44%, #fbf7ff 100%);
-color: var(--ink);
-min-height: 100vh;
+      linear-gradient(135deg, #fffaff 0%, #f5edff 44%, #fbf7ff 100%);
+    color: var(--ink);
+    min-height: 100vh;
     padding: 0;
-overflow-x: hidden;
-}
+    overflow-x: hidden;
+  }
 
-@@ -54,14 +60,18 @@
-inset: 0;
-pointer-events: none;
-z-index: -1;
-    opacity: 0.52;
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
     opacity: 0.62;
-background-image:
-      radial-gradient(circle, rgba(91, 33, 182, 0.28) 1px, transparent 1.6px),
-      radial-gradient(circle, rgba(250, 204, 21, 0.16) 1px, transparent 1.6px);
-    background-size: 130px 130px, 260px 260px;
-    background-position: 20px 30px, 160px 40px;
+    background-image:
       radial-gradient(circle, rgba(91, 33, 182, 0.34) 1px, transparent 1.6px),
       radial-gradient(circle, rgba(217, 70, 239, 0.24) 1px, transparent 1.6px),
       radial-gradient(circle, rgba(250, 204, 21, 0.18) 1px, transparent 1.6px),
@@ -58,111 +69,166 @@ background-image:
       linear-gradient(45deg, transparent 0 67%, rgba(217, 70, 239, 0.10) 67.2%, transparent 68%);
     background-size: 130px 130px, 210px 210px, 280px 280px, 100% 100%, 100% 100%;
     background-position: 20px 30px, 80px 90px, 160px 40px, 0 0, 0 0;
-}
+  }
 
   /* TOP NAV */
-.top-nav {
-position: sticky;
-top: 12px;
-@@ -91,9 +101,13 @@
-font-size: 0.86rem;
-font-weight: 900;
-white-space: nowrap;
-    box-shadow: 0 12px 26px rgba(91, 33, 182, 0.22);
-}
+  .top-nav {
+    position: sticky;
+    top: 12px;
+    z-index: 20;
+    width: calc(100% - 36px);
+    margin: 18px auto 0;
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(18px);
+  }
 
-  .nav-brand span { color: var(--star); }
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.72rem 0.95rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--cosmic), var(--violet-2));
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 900;
+    white-space: nowrap;
+    box-shadow: 0 12px 26px rgba(91, 33, 182, 0.22);
+  }
+
   .nav-brand span {
     color: var(--star);
     text-shadow: 0 0 16px rgba(250, 204, 21, 0.65);
   }
 
-.nav-links {
-display: flex;
-@@ -115,15 +129,20 @@
-text-decoration: none;
-font-size: 0.8rem;
-font-weight: 900;
-    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
-}
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
 
-.nav-link:hover,
-.nav-link.active {
-background: var(--blue-soft);
-color: var(--cosmic);
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-link {
+    flex: 0 0 auto;
+    padding: 0.66rem 0.85rem;
+    border-radius: 999px;
+    color: var(--ink-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 900;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: var(--blue-soft);
+    color: var(--cosmic);
     transform: translateY(-1px);
   }
 
   .nav-link.soon {
     color: var(--ink-faint);
-}
+  }
 
-  .nav-link.soon { color: var(--ink-faint); }
-.nav-link.soon::after {
-content: ' · pronto';
-font-size: 0.68rem;
-@@ -151,7 +170,10 @@
-white-space: nowrap;
-}
+  .nav-link.soon::after {
+    content: ' · pronto';
+    font-size: 0.68rem;
+    color: var(--violet);
+  }
 
-  .last-updated-pill strong { color: var(--cosmic); }
+  .nav-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex: 0 0 auto;
+  }
+
+  .last-updated-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.62rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(237, 233, 254, 0.82);
+    border: 1px solid rgba(139, 92, 246, 0.18);
+    color: var(--ink-muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
   .last-updated-pill strong {
     color: var(--cosmic);
     font-weight: 900;
   }
 
-button {
-font-family: 'Inter', sans-serif;
-@@ -163,37 +185,79 @@
-background: #ffffff;
-color: var(--cosmic);
-cursor: pointer;
+  button {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    padding: 0.72rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(91, 33, 182, 0.20);
+    background: #ffffff;
+    color: var(--cosmic);
+    cursor: pointer;
     transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
-box-shadow: 0 8px 18px rgba(91, 33, 182, 0.08);
-}
+    box-shadow: 0 8px 18px rgba(91, 33, 182, 0.08);
+  }
 
-button:hover {
-background: linear-gradient(135deg, var(--cosmic), var(--violet));
-color: #ffffff;
+  button:hover {
+    background: linear-gradient(135deg, var(--cosmic), var(--violet));
+    color: #ffffff;
     box-shadow: 0 14px 30px rgba(91, 33, 182, 0.20);
     transform: translateY(-1px);
-}
+  }
 
   button:active { transform: scale(0.98); }
 
   .nav-refresh { white-space: nowrap; }
 
-#spin { display:inline-block; transition: transform 0.4s; }
-button.spinning #spin { animation: spin 0.8s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+  #spin { display:inline-block; transition: transform 0.4s; }
+  button.spinning #spin { animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   /* HEADER */
-header {
-position: relative;
-overflow: hidden;
-margin: 14px 18px 18px;
-border-radius: 28px;
-color: #ffffff;
-padding: clamp(1.3rem, 3vw, 2.4rem);
-    min-height: 440px;
+  header {
+    position: relative;
+    overflow: hidden;
+    margin: 14px 18px 18px;
+    border-radius: 28px;
+    color: #ffffff;
+    padding: clamp(1.3rem, 3vw, 2.4rem);
     min-height: 470px;
-display: grid;
+    display: grid;
     grid-template-columns: 1fr;
-align-items: end;
+    align-items: end;
     gap: 2rem;
-background:
-linear-gradient(90deg, rgba(27, 16, 47, 0.88) 0%, rgba(76, 29, 149, 0.74) 48%, rgba(109, 40, 217, 0.54) 100%),
+    background:
+      linear-gradient(90deg, rgba(27, 16, 47, 0.88) 0%, rgba(76, 29, 149, 0.74) 48%, rgba(109, 40, 217, 0.54) 100%),
       radial-gradient(circle at 16% 18%, rgba(216, 180, 254, 0.30), transparent 24%),
       radial-gradient(circle at 78% 14%, rgba(192, 132, 252, 0.28), transparent 26%),
       radial-gradient(circle at 52% 78%, rgba(217, 70, 239, 0.22), transparent 30%),
-url('https://uvn-brightspot.s3.amazonaws.com/assets/vixes/s/se_escucharon_rafagas_de_radio_extraterrestres_y_todos_deben_llamar_a_men_in_black.jpg');
-background-size: cover;
-background-position: center;
+      url('https://uvn-brightspot.s3.amazonaws.com/assets/vixes/s/se_escucharon_rafagas_de_radio_extraterrestres_y_todos_deben_llamar_a_men_in_black.jpg');
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
-box-shadow: var(--shadow);
-}
+    box-shadow: var(--shadow);
+  }
 
-  .hero-copy { position: relative; z-index: 1; max-width: 920px; }
   header::before {
     content: '';
     position: absolute;
@@ -193,47 +259,52 @@ box-shadow: var(--shadow);
     max-width: 920px;
   }
 
-.eyebrow {
-display: inline-flex;
-@@ -203,9 +267,11 @@
-border-radius: 999px;
-background: rgba(255, 255, 255, 0.14);
-border: 1px solid rgba(255, 255, 255, 0.22);
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     backdrop-filter: blur(10px);
-color: rgba(255, 255, 255, 0.92);
-font-size: 0.78rem;
-font-weight: 700;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.78rem;
+    font-weight: 700;
     letter-spacing: 0.02em;
-margin-bottom: 1rem;
-}
+    margin-bottom: 1rem;
+  }
 
-@@ -214,20 +280,22 @@
-height: 8px;
-border-radius: 50%;
-background: var(--star);
+  .eyebrow span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--star);
     box-shadow: 0 0 18px rgba(250, 204, 21, 0.8);
-}
+  }
 
-header h1 {
-font-family: 'Space Grotesk', 'Inter', sans-serif;
-font-weight: 700;
-font-size: clamp(2.4rem, 6.8vw, 5.1rem);
-line-height: 0.96;
-    letter-spacing: -0.04em;
+  header h1 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.4rem, 6.8vw, 5.1rem);
+    line-height: 0.96;
     letter-spacing: -0.06em;
-max-width: 930px;
-}
+    max-width: 930px;
+  }
 
-header h1 em {
-font-style: normal;
-color: #e9d5ff;
+  header h1 em {
+    font-style: normal;
+    color: #e9d5ff;
     text-shadow: 0 0 34px rgba(233, 213, 255, 0.42), 0 0 60px rgba(217, 70, 239, 0.28);
-}
+  }
 
-.hero-subtitle {
-@@ -238,12 +306,46 @@
-line-height: 1.6;
-}
+  .hero-subtitle {
+    max-width: 760px;
+    margin-top: 1.1rem;
+    color: rgba(255,255,255,0.84);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
+  }
 
   .hidden-system {
     display: none !important;
@@ -268,19 +339,31 @@ line-height: 1.6;
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.45} }
 
   /* MAIN */
-main {
-padding: 0 18px 2.5rem;
-width: min(1440px, 100%);
-margin: 0 auto;
-}
+  main {
+    padding: 0 18px 2.5rem;
+    width: min(1440px, 100%);
+    margin: 0 auto;
+  }
 
   /* METRIC CARDS */
-.metrics-grid {
-display: grid;
-grid-template-columns: repeat(4, minmax(170px, 1fr));
-@@ -263,21 +365,40 @@
-backdrop-filter: blur(16px);
-}
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(170px, 1fr));
+    gap: 14px;
+    margin-bottom: 1.25rem;
+  }
+
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 150px;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(16px);
+  }
 
   .metric-card::before {
     content: '';
@@ -293,106 +376,114 @@ backdrop-filter: blur(16px);
     background: radial-gradient(circle, currentColor 0 9%, transparent 10%), radial-gradient(circle, transparent 46%, currentColor 47% 49%, transparent 50%);
   }
 
-.metric-card::after {
-content: '';
-position: absolute;
-    inset: 0 auto auto 0;
-    width: 100%;
+  .metric-card::after {
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
-height: 5px;
-background: linear-gradient(90deg, var(--cosmic), var(--cyan));
-}
+    height: 5px;
+    background: linear-gradient(90deg, var(--cosmic), var(--cyan));
+  }
 
   .metric-card.green { color: var(--green); }
   .metric-card.amber { color: var(--amber); }
   .metric-card.red { color: var(--red); }
   .metric-card.neutral { color: var(--cosmic); }
 
-.metric-card.green::after { background: linear-gradient(90deg, var(--green), #86efac); }
-.metric-card.amber::after { background: linear-gradient(90deg, var(--amber), var(--star)); }
-.metric-card.red::after { background: linear-gradient(90deg, var(--red), #fb7185); }
-.metric-card.neutral::after { background: linear-gradient(90deg, var(--cosmic), var(--cyan)); }
+  .metric-card.green::after { background: linear-gradient(90deg, var(--green), #86efac); }
+  .metric-card.amber::after { background: linear-gradient(90deg, var(--amber), var(--star)); }
+  .metric-card.red::after { background: linear-gradient(90deg, var(--red), #fb7185); }
+  .metric-card.neutral::after { background: linear-gradient(90deg, var(--cosmic), var(--cyan)); }
 
-.metric-label {
+  .metric-label {
     position: relative;
     z-index: 1;
-font-size: 0.73rem;
-text-transform: uppercase;
-letter-spacing: 0.1em;
-@@ -287,22 +408,26 @@
-}
+    font-size: 0.73rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    font-weight: 900;
+    margin-bottom: 0.7rem;
+  }
 
-.metric-value {
+  .metric-value {
     position: relative;
     z-index: 1;
-font-family: 'Space Grotesk', 'Inter', sans-serif;
-font-size: clamp(2.1rem, 4vw, 3.1rem);
-font-weight: 700;
-line-height: 1;
-color: var(--ink);
-    letter-spacing: -0.04em;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: clamp(2.1rem, 4vw, 3.1rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink);
     letter-spacing: -0.05em;
-}
+  }
 
-.metric-sub {
+  .metric-sub {
     position: relative;
     z-index: 1;
-font-size: 0.78rem;
-color: var(--ink-muted);
-margin-top: 0.6rem;
-font-weight: 600;
-    line-height: 1.45;
-}
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    margin-top: 0.6rem;
+    font-weight: 600;
+  }
 
   /* SECTION */
-.section { margin-bottom: 1.25rem; }
+  .section { margin-bottom: 1.25rem; }
 
-.section-header {
-@@ -318,7 +443,7 @@
-font-family: 'Space Grotesk', 'Inter', sans-serif;
-font-weight: 700;
-font-size: 1.35rem;
-    letter-spacing: -0.025em;
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+    padding: 0 0.25rem;
+  }
+
+  .section-header h2 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
     letter-spacing: -0.035em;
-color: var(--ink);
-}
+    color: var(--ink);
+  }
 
-@@ -330,26 +455,23 @@
-font-weight: 800;
-}
+  .section-header span {
+    font-size: 0.73rem;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+  }
 
   /* CHARTS GRID */
-.charts-grid {
-display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  .charts-grid {
+    display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-gap: 16px;
-margin-bottom: 1.25rem;
-}
+    gap: 16px;
+    margin-bottom: 1.25rem;
+  }
 
-  .chart-card,
-  .table-card,
-  .course-detail-card,
-  .insight-card {
   .chart-card {
-background: var(--surface);
-border: 1px solid var(--border);
-border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     padding: 1.2rem;
-box-shadow: var(--shadow-soft);
-backdrop-filter: blur(16px);
-}
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(16px);
+  }
 
-  .chart-card { padding: 1.2rem; }
-
-.chart-title {
-display: flex;
-align-items: center;
-@@ -363,14 +485,30 @@
-margin-bottom: 1rem;
-}
+  .chart-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
 
   .chart-title::after {
     content: '◌';
@@ -401,9 +492,8 @@ margin-bottom: 1rem;
     line-height: 1;
   }
 
-.chart-wrap { position: relative; height: 300px; }
+  .chart-wrap { position: relative; height: 300px; }
 
-  .table-card { overflow: hidden; }
   /* TABLE */
   .table-card {
     background: var(--surface);
@@ -414,118 +504,141 @@ margin-bottom: 1rem;
     backdrop-filter: blur(16px);
   }
 
-.table-scroll { width: 100%; overflow-x: auto; }
+  .table-scroll { width: 100%; overflow-x: auto; }
 
-table {
-width: 100%;
-    min-width: 1060px;
+  table {
+    width: 100%;
     min-width: 960px;
-border-collapse: collapse;
-font-size: 0.86rem;
-}
-@@ -402,9 +540,11 @@
-}
+    border-collapse: collapse;
+    font-size: 0.86rem;
+  }
 
-td:not(:first-child) { text-align: center; }
+  thead tr {
+    background: linear-gradient(90deg, rgba(91, 33, 182, 0.09), rgba(217, 70, 239, 0.08));
+  }
+
+  th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.70rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    font-weight: 900;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  th:not(:first-child) { text-align: center; }
+
+  td {
+    padding: 0.92rem 1rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    color: var(--ink-soft);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  td:not(:first-child) { text-align: center; }
   tbody tr:last-child td { border-bottom: none; }
-tbody tr:hover { background: rgba(237, 233, 254, 0.55); }
-.curso-name { font-weight: 900; color: var(--ink); }
+  tbody tr:hover { background: rgba(237, 233, 254, 0.55); }
+  .curso-name { font-weight: 900; color: var(--ink); }
 
   /* BADGES */
-.badge {
-display: inline-flex;
-align-items: center;
-@@ -442,6 +582,7 @@
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    padding: 0.32rem 0.65rem;
+    border-radius: 999px;
+    font-weight: 900;
+    border: 1px solid transparent;
+  }
 
-.pct-seg { height: 100%; }
+  .badge::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .badge-green { background: var(--green-soft); color: #15803d; border-color: rgba(34, 197, 94, 0.22); }
+  .badge-amber { background: var(--amber-soft); color: #b45309; border-color: rgba(245, 158, 11, 0.22); }
+  .badge-red { background: var(--red-soft); color: #b91c1c; border-color: rgba(239, 68, 68, 0.22); }
+  .badge-gray { background: #f1f5f9; color: var(--ink-muted); border-color: var(--border); }
+
+  .pct-bar {
+    display: flex;
+    height: 9px;
+    border-radius: 999px;
+    overflow: hidden;
+    gap: 2px;
+    margin-top: 2px;
+    background: #e2e8f0;
+  }
+
+  .pct-seg { height: 100%; }
 
   /* LEGEND */
-.legend {
-display: flex;
-flex-wrap: wrap;
-@@ -461,6 +602,7 @@
-vertical-align: middle;
-}
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    margin-top: 12px;
+    font-weight: 700;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
 
   /* EMPTY / ERROR STATE */
-.state-msg {
-text-align: center;
-padding: 3rem;
-@@ -469,68 +611,7 @@
-font-weight: 700;
-}
-
-  .notice {
-    margin-bottom: 1.25rem;
-    padding: 1rem 1.1rem;
-    border-radius: 18px;
-    background: rgba(254, 243, 199, 0.9);
-    border: 1px solid rgba(245, 158, 11, 0.25);
-    color: #8a4b00;
-    font-size: 0.9rem;
-    font-weight: 750;
-    line-height: 1.55;
-  }
-
-  .insight-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .insight-card {
-    padding: 1rem;
-    min-height: 220px;
-  }
-
-  .insight-card h3 {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: 1.05rem;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.8rem;
-  }
-
-  .mini-list {
-    display: grid;
-    gap: 0.55rem;
-  }
-
-  .mini-item {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.65rem;
-    align-items: center;
-    padding: 0.7rem;
-    border: 1px solid rgba(139, 92, 246, 0.14);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.68);
-  }
-
-  .mini-item strong {
-    display: block;
-    color: var(--ink);
-    font-size: 0.86rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .mini-item span {
-    display: block;
-    color: var(--ink-muted);
-    font-size: 0.74rem;
-    font-weight: 750;
-    margin-top: 0.15rem;
+  .state-msg {
+    text-align: center;
+    padding: 3rem;
+    color: var(--ink-faint);
+    font-size: 0.92rem;
+    font-weight: 700;
   }
 
   /* COURSE EXPLORER */
-.course-tabs {
-display: flex;
-gap: 0.55rem;
-@@ -558,7 +639,14 @@
-color: #ffffff;
-}
+  .course-tabs {
+    display: flex;
+    gap: 0.55rem;
+    overflow-x: auto;
+    padding: 0.25rem 0 0.9rem;
+    margin-bottom: 0.6rem;
+    scrollbar-width: none;
+  }
 
-  .course-detail-card { padding: 1.2rem; }
+  .course-tabs::-webkit-scrollbar { display: none; }
+
+  .course-tab {
+    flex: 0 0 auto;
+    padding: 0.72rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid var(--border);
+    color: var(--ink-muted);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .course-tab.active,
+  .course-tab:hover {
+    background: linear-gradient(135deg, var(--cosmic), var(--violet-2));
+    color: #ffffff;
+  }
+
   .course-detail-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -535,105 +648,100 @@ color: #ffffff;
     backdrop-filter: blur(16px);
   }
 
-.course-hero {
-display: grid;
-@@ -568,7 +656,7 @@
-padding: 1rem;
-border-radius: var(--radius);
-background:
-      radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.16), transparent 26%),
+  .course-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border-radius: var(--radius);
+    background:
       radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.18), transparent 26%),
-linear-gradient(135deg, rgba(91, 33, 182, 0.10), rgba(217, 70, 239, 0.08));
-border: 1px solid rgba(139, 92, 246, 0.16);
-margin-bottom: 1rem;
-@@ -577,7 +665,7 @@
-.course-hero h3 {
-font-family: 'Space Grotesk', 'Inter', sans-serif;
-font-size: clamp(1.6rem, 4vw, 2.4rem);
-    letter-spacing: -0.04em;
-    letter-spacing: -0.05em;
-color: var(--ink);
-margin-bottom: 0.25rem;
-}
-@@ -605,53 +693,34 @@
-.course-status.good { background: var(--green-soft); color: #15803d; }
-.course-status.mid { background: var(--amber-soft); color: #b45309; }
-.course-status.risk { background: var(--red-soft); color: #b91c1c; }
-  .course-status.none { background: #f1f5f9; color: var(--ink-muted); }
-
-  .unit-grid {
-  .range-grid {
-display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-gap: 0.8rem;
-margin-top: 1rem;
-}
-
-  .unit-card {
-  .range-card {
-border: 1px solid var(--border);
-border-radius: 18px;
-padding: 1rem;
-background: rgba(255, 255, 255, 0.72);
-}
-
-  .unit-card h4 {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: 1rem;
-    margin-bottom: 0.6rem;
+      linear-gradient(135deg, rgba(91, 33, 182, 0.10), rgba(217, 70, 239, 0.08));
+    border: 1px solid rgba(139, 92, 246, 0.16);
+    margin-bottom: 1rem;
   }
 
-  .unit-stats {
+  .course-hero h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+
+  .course-hero p {
+    color: var(--ink-muted);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .course-status {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    padding: 0.65rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .course-status.good { background: var(--green-soft); color: #15803d; }
+  .course-status.mid { background: var(--amber-soft); color: #b45309; }
+  .course-status.risk { background: var(--red-soft); color: #b91c1c; }
+
+  .range-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.55rem;
+    gap: 0.8rem;
+    margin-top: 1rem;
   }
 
-  .unit-stats div {
-    padding: 0.65rem;
-    border-radius: 12px;
-    background: rgba(237, 233, 254, 0.58);
+  .range-card {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.72);
   }
 
-  .unit-stats strong {
   .range-card strong {
-display: block;
-font-family: 'Space Grotesk', 'Inter', sans-serif;
-    font-size: 1.35rem;
+    display: block;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
     font-size: 2rem;
     letter-spacing: -0.05em;
-color: var(--ink);
+    color: var(--ink);
     margin-bottom: 0.25rem;
-}
+  }
 
-  .unit-stats span {
-    display: block;
   .range-card span {
-color: var(--ink-muted);
-    font-size: 0.72rem;
+    color: var(--ink-muted);
     font-size: 0.8rem;
-font-weight: 800;
-    margin-top: 0.15rem;
-}
+    font-weight: 800;
+  }
 
-.course-note {
-@@ -665,20 +734,37 @@
-line-height: 1.55;
-}
-
-  .hidden-system { display: none !important; }
+  .course-note {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+    background: rgba(237, 233, 254, 0.58);
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.55;
+  }
 
   /* RESPONSIVE */
-@media (max-width: 980px) {
-.top-nav {
-border-radius: 24px;
-align-items: stretch;
-flex-wrap: wrap;
-}
+  @media (max-width: 980px) {
+    .top-nav {
+      border-radius: 24px;
+      align-items: stretch;
+      flex-wrap: wrap;
+    }
 
-    .nav-brand { flex: 1; justify-content: center; }
-    .nav-links { width: 100%; flex-basis: 100%; order: 3; }
     .nav-brand {
       flex: 1;
       justify-content: center;
@@ -655,18 +763,24 @@ flex-wrap: wrap;
       min-height: 390px;
     }
 
-.metrics-grid { grid-template-columns: repeat(2, minmax(170px, 1fr)); }
-.charts-grid { grid-template-columns: 1fr; }
-    .insight-grid { grid-template-columns: 1fr; }
-.chart-wrap { height: 260px; }
-}
+    .metrics-grid { grid-template-columns: repeat(2, minmax(170px, 1fr)); }
+    .charts-grid { grid-template-columns: 1fr; }
+    .chart-wrap { height: 260px; }
+  }
 
-@@ -695,8 +781,14 @@
-grid-template-columns: 1fr;
-}
+  @media (max-width: 700px) {
+    .top-nav {
+      width: calc(100% - 20px);
+      margin-top: 10px;
+      top: 8px;
+    }
 
-    .last-updated-pill,
-    .nav-refresh { width: 100%; justify-content: center; }
+    .nav-actions {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
     .last-updated-pill {
       justify-content: center;
       width: 100%;
@@ -676,234 +790,167 @@ grid-template-columns: 1fr;
       width: 100%;
     }
 
-header {
-margin: 10px;
-@@ -707,9 +799,11 @@
+    header {
+      margin: 10px;
+      border-radius: 22px;
+      min-height: 360px;
+      padding: 1.2rem;
+    }
 
-main { padding: 0 10px 1.5rem; }
-.metrics-grid { grid-template-columns: 1fr; }
-    .unit-grid { grid-template-columns: 1fr; }
+    main { padding: 0 10px 1.5rem; }
+    .metrics-grid { grid-template-columns: 1fr; }
     header h1 { font-size: clamp(2.2rem, 13vw, 3.25rem); }
     .hero-subtitle { font-size: 0.96rem; }
-.course-hero { grid-template-columns: 1fr; }
-.course-status { justify-self: start; }
+    .course-hero { grid-template-columns: 1fr; }
+    .course-status { justify-self: start; }
     .range-grid { grid-template-columns: 1fr; }
-}
+  }
 </style>
 </head>
-@@ -719,10 +813,10 @@
-<a class="nav-brand" href="#inicio"><span>✦</span> Vito Cósmico</a>
-<div class="nav-links">
-<a class="nav-link active" href="#notas">Notas</a>
-    <a class="nav-link" href="#unidades">Unidades</a>
-    <a class="nav-link" href="#seguimiento">Seguimiento</a>
-<a class="nav-link" href="#explorador-cursos">Cursos</a>
-<a class="nav-link soon" href="#proximamente">Conductual</a>
+<body>
+
+<nav class="top-nav" aria-label="Navegación principal">
+  <a class="nav-brand" href="#inicio"><span>✦</span> Vito Cósmico</a>
+  <div class="nav-links">
+    <a class="nav-link active" href="#notas">Notas</a>
+    <a class="nav-link" href="#explorador-cursos">Cursos</a>
+    <a class="nav-link soon" href="#proximamente">Conductual</a>
     <a class="nav-link soon" href="#proximamente">Socioemocional</a>
     <a class="nav-link soon" href="#proximamente">Puestos</a>
-<a class="nav-link soon" href="#proximamente">Reportes</a>
+    <a class="nav-link soon" href="#proximamente">Reportes</a>
+  </div>
+  <div class="nav-actions">
+    <span class="last-updated-pill">Última actualización: <strong id="last-updated">—</strong></span>
+    <button class="nav-refresh" id="refreshBtn" onclick="loadAll()">
+      <span id="spin">↻</span> Actualizar
+    </button>
+  </div>
+</nav>
+
+<div class="hidden-system" aria-hidden="true">
+  <div id="chips-container"></div>
+  <div id="sheet-rows"></div>
 </div>
-<div class="nav-actions">
-@@ -742,36 +836,31 @@
-<div class="hero-copy">
-<div class="eyebrow"><span></span> Vito Cósmico · Panel docente personal</div>
-<h1>Observatorio <em>Académico</em><br>de Vito Cósmico</h1>
-    <p class="hero-subtitle">Seguimiento por cursos y unidades, diferenciando notas de proceso, notas finales y estados reales de avance.</p>
+
+<header id="inicio">
+  <div class="hero-copy">
+    <div class="eyebrow"><span></span> Vito Cósmico · Panel docente personal</div>
+    <h1>Observatorio <em>Académico</em><br>de Vito Cósmico</h1>
     <p class="hero-subtitle">Seguimiento de notas, rendimiento y análisis de cursos en un solo espacio.</p>
-</div>
+  </div>
 </header>
 
 <main>
-  <div class="notice" id="config-notice">
-    El panel calcula promedios y alertas usando principalmente notas finales de unidades cerradas. Si una unidad no tiene nota final, aparece como proceso incompleto y no se mezcla con el promedio final.
-  </div>
 
   <!-- METRICS -->
-<div class="metrics-grid" id="metrics-grid">
-<div class="state-msg" style="grid-column:1/-1">Cargando datos…</div>
-</div>
+  <div class="metrics-grid" id="metrics-grid">
+    <div class="state-msg" style="grid-column:1/-1">Cargando datos…</div>
+  </div>
 
   <!-- CHARTS -->
-<div class="section" id="notas">
-<div class="section-header">
-<h2>Panorama por curso</h2>
-      <span>Solo unidades cerradas</span>
+  <div class="section" id="notas">
+    <div class="section-header">
+      <h2>Panorama por curso</h2>
       <span>Escala chilena 1,0 – 7,0</span>
-</div>
-<div class="charts-grid">
-<div class="chart-card">
-        <p class="chart-title">Promedio final por curso</p>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-card">
         <p class="chart-title">Promedio por curso</p>
-<div class="chart-wrap"><canvas id="barChart"></canvas></div>
+        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+        <div class="legend" id="bar-legend"></div>
+      </div>
+      <div class="chart-card">
+        <p class="chart-title">Distribución por rendimiento</p>
+        <div class="chart-wrap"><canvas id="stackChart"></canvas></div>
         <div class="legend">
           <span><span class="legend-dot" style="background:#22c55e"></span>5,5 – 7,0</span>
           <span><span class="legend-dot" style="background:#f59e0b"></span>4,0 – 5,4</span>
           <span><span class="legend-dot" style="background:#ef4444"></span>Bajo 4,0</span>
         </div>
-        <div class="legend" id="bar-legend"></div>
-</div>
-<div class="chart-card">
-        <p class="chart-title">Distribución final por curso</p>
-        <p class="chart-title">Distribución por rendimiento</p>
-<div class="chart-wrap"><canvas id="stackChart"></canvas></div>
-<div class="legend">
-<span><span class="legend-dot" style="background:#22c55e"></span>5,5 – 7,0</span>
-@@ -782,23 +871,7 @@ <h2>Panorama por curso</h2>
-</div>
-</div>
-
-  <div class="section" id="unidades">
-    <div class="section-header">
-      <h2>Resumen por unidad</h2>
-      <span>Finales, procesos e incompletas</span>
-    </div>
-    <div class="charts-grid">
-      <div class="chart-card">
-        <p class="chart-title">Promedio de notas finales por unidad</p>
-        <div class="chart-wrap"><canvas id="unitChart"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <p class="chart-title">Estado de unidades</p>
-        <div class="chart-wrap"><canvas id="unitStateChart"></canvas></div>
       </div>
     </div>
   </div>
 
   <!-- TABLE -->
-<div class="section" id="cursos">
-<div class="section-header">
-<h2>Detalle por curso</h2>
-@@ -811,14 +884,14 @@ <h2>Detalle por curso</h2>
-<tr>
-<th>Curso</th>
-<th>Total</th>
-              <th>Finales cerradas</th>
-              <th>Promedio final</th>
+  <div class="section" id="cursos">
+    <div class="section-header">
+      <h2>Detalle por curso</h2>
+      <span id="total-est-label"></span>
+    </div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Total</th>
               <th>Con nota</th>
               <th>Promedio</th>
-<th>Mín</th>
-<th>Máx</th>
-<th>Bajo 4,0</th>
-<th>4,0 – 5,4</th>
-<th>5,5+</th>
-              <th>Unidades incompletas</th>
+              <th>Mín</th>
+              <th>Máx</th>
+              <th>Bajo 4,0</th>
+              <th>4,0 – 5,4</th>
+              <th>5,5+</th>
               <th>Distribución</th>
-<th>Estado</th>
-</tr>
-</thead>
-@@ -830,31 +903,11 @@ <h2>Detalle por curso</h2>
-</div>
-</div>
-
-  <div class="section" id="seguimiento">
-    <div class="section-header">
-      <h2>Seguimiento docente</h2>
-      <span>Lecturas accionables</span>
-    </div>
-    <div class="insight-grid">
-      <div class="insight-card">
-        <h3>Estudiantes con unidad en riesgo</h3>
-        <div class="mini-list" id="risk-list"></div>
-      </div>
-      <div class="insight-card">
-        <h3>Procesos incompletos</h3>
-        <div class="mini-list" id="incomplete-list"></div>
-      </div>
-      <div class="insight-card">
-        <h3>Estudiantes destacados</h3>
-        <div class="mini-list" id="featured-list"></div>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="11" class="state-msg">Sin datos</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
   <!-- COURSE EXPLORER -->
-<div class="section" id="explorador-cursos">
-<div class="section-header">
-<h2>Explorador de cursos</h2>
-      <span>Vista por unidades</span>
+  <div class="section" id="explorador-cursos">
+    <div class="section-header">
+      <h2>Explorador de cursos</h2>
       <span>Vista individual</span>
-</div>
+    </div>
 
-<div class="course-tabs" id="course-tabs"></div>
-@@ -865,24 +918,12 @@ <h2>Explorador de cursos</h2>
-</div>
+    <div class="course-tabs" id="course-tabs"></div>
 
-<div id="proximamente" class="section" style="display:none"></div>
+    <div class="course-detail-card" id="course-detail">
+      <p class="state-msg">Cargando vista del curso…</p>
+    </div>
+  </div>
+
+  <div id="proximamente" class="section" style="display:none"></div>
 
 </main>
 
 <script>
 // ── CONFIGURATION ──────────────────────────────────────────────
-// Columnas recomendadas para la hoja:
-// A: N°
-// B: Estudiante
-// C, D, E...: notas de proceso de la unidad
-// F: nota final de unidad
-//
-// Importante:
-// - nameCol y gradeCol se mantienen para no romper tu estructura actual.
-// - units permite configurar varias unidades por curso.
-// - processCols son notas de proceso: sirven para seguimiento, no para promedio final.
-// - finalCol es la nota final que va al libro.
-// - status puede ser 'auto', 'process' o 'closed'.
-//   'auto' considera cerrada la unidad cuando existe nota final.
-
 // Edita este objeto para agregar o quitar hojas
 let SHEETS = JSON.parse(localStorage.getItem('dashboard_sheets') || 'null') || [
-{ name: '1ro A',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=44483619&single=true&output=csv',    nameCol: 1, gradeCol: 2 },
-{ name: '1ro B',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=134238669&single=true&output=csv',   nameCol: 1, gradeCol: 2 },
-@@ -896,93 +937,70 @@ <h2>Explorador de cursos</h2>
-{ name: '4to B',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=1300678134&single=true&output=csv', nameCol: 1, gradeCol: 2 },
+  { name: '1ro A',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=44483619&single=true&output=csv',    nameCol: 1, gradeCol: 2 },
+  { name: '1ro B',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=134238669&single=true&output=csv',   nameCol: 1, gradeCol: 2 },
+  { name: '2do A - M', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=69786274&single=true&output=csv',    nameCol: 1, gradeCol: 2 },
+  { name: '2do A - F', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=1628540739&single=true&output=csv', nameCol: 1, gradeCol: 2 },
+  { name: '2do B - M', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=49988213&single=true&output=csv',   nameCol: 1, gradeCol: 2 },
+  { name: '2do B - F', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=167905199&single=true&output=csv', nameCol: 1, gradeCol: 2 },
+  { name: '3ro A',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=67978648&single=true&output=csv',   nameCol: 1, gradeCol: 2 },
+  { name: '3ro B',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=2134963920&single=true&output=csv', nameCol: 1, gradeCol: 2 },
+  { name: '4to A',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=826713255&single=true&output=csv',  nameCol: 1, gradeCol: 2 },
+  { name: '4to B',     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8iKhhft90KEzFyhWlywHA6uKjZysTaGeHFGruc3BLs88mj2NA3Eo_gW-4y4KWZssUf2V37BeOES2/pub?gid=1300678134&single=true&output=csv', nameCol: 1, gradeCol: 2 },
 ];
 
-// Ejemplo para configurar una hoja con proceso + final:
-// SHEETS[2].units = [
-//   { id: 'u1', name: 'Unidad 1', processCols: [2, 3, 4, 5, 6], finalCol: 7, status: 'auto' },
-//   { id: 'u2', name: 'Unidad 2', processCols: [8, 9, 10], finalCol: 11, status: 'auto' },
-// ];
-
-let barChartInst = null;
-let stackChartInst = null;
-let unitChartInst = null;
-let unitStateChartInst = null;
 // ── STATE ───────────────────────────────────────────────────────
 let barChartInst = null, stackChartInst = null;
 let allCourseData = [];
 
-function normalizeText(value) {
-  return String(value ?? '').trim();
-}
-
-function parseGrade(rawValue) {
-  const raw = normalizeText(rawValue).replace(',', '.');
-  if (!raw) return null;
-
-  const num = parseFloat(raw);
-  if (isNaN(num)) return null;
-
-  // Acepta notas escritas como 6,5 o como 65.
-  if (num >= 1 && num <= 7) return Math.round(num * 10);
-  if (num >= 10 && num <= 70) return Math.round(num);
-  if (num > 70 && num <= 100) return Math.round(num);
-
-  return null;
-}
-
 // ── HELPERS ─────────────────────────────────────────────────────
 function fmtGrade(value) {
-if (value === null || value === undefined || isNaN(value)) return '—';
-return (value / 10).toFixed(1).replace('.', ',');
+  if (value === null || value === undefined || isNaN(value)) return '—';
+  return (value / 10).toFixed(1).replace('.', ',');
 }
 
-function pct(part, total) {
-  return total ? Math.round(part / total * 100) : 0;
 function fmtPct(value) {
   return value.toString().replace('.', ',') + '%';
 }
 
-function average(values) {
-  const clean = values.filter(v => v !== null && v !== undefined && !isNaN(v));
-  return clean.length ? clean.reduce((a, b) => a + b, 0) / clean.length : null;
 // ── SHEET ROW UI ─────────────────────────────────────────────────
 function renderSheetRows() {
   const container = document.getElementById('sheet-rows');
@@ -921,29 +968,16 @@ function renderSheetRows() {
   });
 }
 
-function getSheetUnits(sheet) {
-  if (Array.isArray(sheet.units) && sheet.units.length) return sheet.units;
 function addSheetRow() {
   SHEETS.push({ name: '', url: '', nameCol: 1, gradeCol: 2 });
   renderSheetRows();
 }
 
-  return [{
-    id: 'u_actual',
-    name: 'Unidad actual',
-    processCols: [],
-    finalCol: sheet.gradeCol ?? 2,
-    status: 'auto'
-  }];
 function removeSheet(i) {
   SHEETS.splice(i, 1);
   renderSheetRows();
 }
 
-function getUnitStatus(unitConfig, finalGrade) {
-  if (unitConfig.status === 'closed') return 'closed';
-  if (unitConfig.status === 'process') return 'process';
-  return finalGrade !== null ? 'closed' : 'process';
 function saveAndLoad() {
   localStorage.setItem('dashboard_sheets', JSON.stringify(SHEETS));
   loadAll();
@@ -951,102 +985,54 @@ function saveAndLoad() {
 
 // ── CSV PARSE ────────────────────────────────────────────────────
 function parseCSV(text) {
-text = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-return text.trim().split('\n').map(line => {
-const cells = [];
-let cur = '', inQ = false;
-
-for (let i = 0; i < line.length; i++) {
-const ch = line[i];
-
-if (ch === '"') {
-        if (inQ && line[i + 1] === '"') {
-          cur += '"';
-          i++;
-        } else {
-          inQ = !inQ;
-        }
+  text = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  return text.trim().split('\n').map(line => {
+    const cells = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
         if (inQ && line[i+1] === '"') { cur += '"'; i++; }
         else inQ = !inQ;
-} else if (ch === ',' && !inQ) {
-cells.push(cur.trim());
-cur = '';
-} else {
-cur += ch;
-}
-}
-
-cells.push(cur.trim());
-return cells;
-});
-@@ -996,161 +1014,46 @@ <h2>Explorador de cursos</h2>
-return 3;
-}
-
-function summarizeGrades(grades) {
-  const n = grades.length;
-  return {
-    conNota: n,
-    avg: average(grades),
-    min: n ? Math.min(...grades) : null,
-    max: n ? Math.max(...grades) : null,
-    b40: grades.filter(g => g < 40).length,
-    m54: grades.filter(g => g >= 40 && g < 55).length,
-    a55: grades.filter(g => g >= 55).length
-  };
-}
-
-function buildStudentAverage(student) {
-  const finals = student.units
-    .filter(u => u.status === 'closed' && u.finalGrade !== null)
-    .map(u => u.finalGrade);
-
-  return average(finals);
-}
-
-function buildUnitSummaries(students, unitConfigs) {
-  return unitConfigs.map(unitConfig => {
-    const unitRecords = students.map(student => student.units.find(u => u.id === unitConfig.id)).filter(Boolean);
-    const closedRecords = unitRecords.filter(u => u.status === 'closed' && u.finalGrade !== null);
-    const finalGrades = closedRecords.map(u => u.finalGrade);
-    const processRecords = unitRecords.filter(u => u.processGrades.length > 0 && u.finalGrade === null);
-    const missingFinal = unitRecords.filter(u => u.finalGrade === null).length;
-
-    return {
-      id: unitConfig.id,
-      name: unitConfig.name,
-      total: unitRecords.length,
-      closed: closedRecords.length,
-      inProcess: processRecords.length,
-      missingFinal,
-      ...summarizeGrades(finalGrades)
-    };
+      } else if (ch === ',' && !inQ) {
+        cells.push(cur.trim());
+        cur = '';
+      } else {
+        cur += ch;
+      }
+    }
+    cells.push(cur.trim());
+    return cells;
   });
+}
+
+function findDataStart(rows) {
+  for (let i = 0; i < rows.length; i++) {
+    const v = parseFloat(rows[i][0]);
+    if (!isNaN(v) && v >= 1 && v <= 200) return i;
+  }
+  return 3;
 }
 
 // ── FETCH ONE SHEET ──────────────────────────────────────────────
 async function fetchSheet(sheet) {
-const resp = await fetch(sheet.url);
-if (!resp.ok) throw new Error('HTTP ' + resp.status);
-
-const text = await resp.text();
-const rows = parseCSV(text);
+  const resp = await fetch(sheet.url);
+  if (!resp.ok) throw new Error('HTTP ' + resp.status);
+  const text = await resp.text();
+  const rows = parseCSV(text);
 
   const nameCol  = sheet.nameCol  ?? 1;
   const gradeCol = sheet.gradeCol ?? 2;
-const startRow = findDataStart(rows);
-  const nameCol = sheet.nameCol ?? 1;
-  const unitConfigs = getSheetUnits(sheet);
+  const startRow = findDataStart(rows);
 
   const grades = [];
-const students = [];
+  const students = [];
 
-for (let i = startRow; i < rows.length; i++) {
-const row = rows[i];
-if (!row || row.length < 2) continue;
-
-const idx = parseFloat(row[0]);
-if (isNaN(idx) || idx < 1) continue;
+  for (let i = startRow; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row || row.length < 2) continue;
+    const idx = parseFloat(row[0]);
+    if (isNaN(idx) || idx < 1) continue;
     const name  = row[nameCol] || '';
     const raw   = (row[gradeCol] || '').replace(',', '.').trim();
     const grade = parseFloat(raw);
@@ -1062,100 +1048,6 @@ if (isNaN(idx) || idx < 1) continue;
   const m54 = grades.filter(g=>g>=40&&g<55).length;
   const a55 = grades.filter(g=>g>=55).length;
 
-    const studentName = normalizeText(row[nameCol]);
-    if (!studentName) continue;
-
-    const units = unitConfigs.map(unitConfig => {
-      const processGrades = (unitConfig.processCols || [])
-        .map(col => parseGrade(row[col]))
-        .filter(value => value !== null);
-
-      const finalGrade = parseGrade(row[unitConfig.finalCol]);
-      const status = getUnitStatus(unitConfig, finalGrade);
-
-      return {
-        id: unitConfig.id,
-        name: unitConfig.name,
-        processGrades,
-        finalGrade,
-        status,
-        hasProcess: processGrades.length > 0,
-        expectedProcessCount: (unitConfig.processCols || []).length
-      };
-    });
-
-    const finalAverage = buildStudentAverage({ units });
-
-    students.push({
-      name: studentName,
-      units,
-      finalAverage
-    });
-  }
-
-  const studentFinalAverages = students
-    .map(s => s.finalAverage)
-    .filter(v => v !== null);
-
-  const finalGradesByUnit = students.flatMap(student =>
-    student.units
-      .filter(unit => unit.status === 'closed' && unit.finalGrade !== null)
-      .map(unit => unit.finalGrade)
-  );
-
-  const summary = summarizeGrades(studentFinalAverages);
-  const unitSummaries = buildUnitSummaries(students, unitConfigs);
-
-  const incompleteProcesses = students.flatMap(student =>
-    student.units
-      .filter(unit => unit.finalGrade === null && unit.hasProcess)
-      .map(unit => ({
-        course: sheet.name,
-        student: student.name,
-        unit: unit.name,
-        processCount: unit.processGrades.length,
-        expectedProcessCount: unit.expectedProcessCount
-      }))
-  );
-
-  const riskStudents = students.flatMap(student =>
-    student.units
-      .filter(unit => unit.status === 'closed' && unit.finalGrade !== null && unit.finalGrade < 40)
-      .map(unit => ({
-        course: sheet.name,
-        student: student.name,
-        unit: unit.name,
-        grade: unit.finalGrade
-      }))
-  );
-
-  const featuredStudents = students
-    .filter(student => student.finalAverage !== null && student.finalAverage >= 60)
-    .map(student => ({
-      course: sheet.name,
-      student: student.name,
-      avg: student.finalAverage,
-      closedUnits: student.units.filter(u => u.status === 'closed' && u.finalGrade !== null).length
-    }))
-    .sort((a, b) => b.avg - a.avg);
-
-  const incompleteUnitCount = unitSummaries.reduce((sum, unit) => sum + unit.missingFinal, 0);
-
-  console.log(`[${sheet.name}] startRow=${startRow}, estudiantes=${students.length}, finales cerradas=${finalGradesByUnit.length}, promedio final=${summary.avg?.toFixed(1)}`);
-
-  return {
-    name: sheet.name,
-    total: students.length,
-    students,
-    unitConfigs,
-    unitSummaries,
-    incompleteProcesses,
-    riskStudents,
-    featuredStudents,
-    incompleteUnitCount,
-    finalGradeCount: finalGradesByUnit.length,
-    ...summary
-  };
   console.log(`[${sheet.name}] startRow=${startRow}, estudiantes=${students.length}, con nota=${n}, avg=${avg?.toFixed(1)}`);
 
   return { name: sheet.name, total: students.length, conNota: n, avg, min, max, b40, m54, a55, grades };
@@ -1163,50 +1055,36 @@ if (isNaN(idx) || idx < 1) continue;
 
 // ── CHIPS ────────────────────────────────────────────────────────
 function setChip(name, state) {
-let chip = document.getElementById('chip-' + name);
-if (!chip) {
-@@ -1163,65 +1066,59 @@ <h2>Explorador de cursos</h2>
-chip.className = 'sheet-chip ' + state;
-}
-
-function renderSheetRows() {
-  const container = document.getElementById('sheet-rows');
-  if (!container) return;
-  container.innerHTML = '';
+  let chip = document.getElementById('chip-' + name);
+  if (!chip) {
+    chip = document.createElement('span');
+    chip.id = 'chip-' + name;
+    chip.className = 'sheet-chip';
+    chip.textContent = name;
+    document.getElementById('chips-container').appendChild(chip);
+  }
+  chip.className = 'sheet-chip ' + state;
 }
 
 // ── RENDER ───────────────────────────────────────────────────────
 function renderMetrics(data) {
-  const totalCourses = data.length;
-  const totalStudents = data.reduce((a, d) => a + d.total, 0);
-  const totalClosedFinals = data.reduce((a, d) => a + d.finalGradeCount, 0);
-  const totalRisk = data.reduce((a, d) => a + d.riskStudents.length, 0);
-  const totalIncomplete = data.reduce((a, d) => a + d.incompleteProcesses.length, 0);
-
-  const courseAvgs = data.filter(d => d.avg !== null).map(d => d.avg);
-  const globalAvgNumber = average(courseAvgs);
   const totalEst = data.reduce((a,d)=>a+d.total,0);
   const totalNota = data.reduce((a,d)=>a+d.conNota,0);
   const totalB40 = data.reduce((a,d)=>a+d.b40,0);
   const pctB40 = totalNota ? Math.round(totalB40/totalNota*100) : 0;
   const avgs = data.filter(d=>d.avg!==null).map(d=>d.avg);
   const globalAvgNumber = avgs.length ? avgs.reduce((a,b)=>a+b,0)/avgs.length : null;
-const globalAvg = globalAvgNumber !== null ? fmtGrade(globalAvgNumber) : '—';
+  const globalAvg = globalAvgNumber !== null ? fmtGrade(globalAvgNumber) : '—';
   const approved = totalNota - totalB40;
   const pctApproved = totalNota ? Math.round(approved/totalNota*100) : 0;
 
-  const clsAvg = globalAvgNumber === null ? 'neutral' : globalAvgNumber >= 55 ? 'green' : globalAvgNumber >= 45 ? 'amber' : 'red';
-  const clsRisk = totalRisk === 0 ? 'green' : totalRisk <= 5 ? 'amber' : 'red';
-  const clsIncomplete = totalIncomplete === 0 ? 'green' : totalIncomplete <= 10 ? 'amber' : 'red';
   const clsAvg = globalAvgNumber >= 55 ? 'green' : globalAvgNumber >= 45 ? 'amber' : 'red';
   const clsB40 = pctB40 <= 20 ? 'green' : pctB40 <= 35 ? 'amber' : 'red';
   const clsApproved = pctApproved >= 80 ? 'green' : pctApproved >= 65 ? 'amber' : 'red';
 
-document.getElementById('metrics-grid').innerHTML = `
-   <div class="metric-card neutral">
-     <p class="metric-label">Cursos cargados</p>
-      <p class="metric-value">${totalCourses}</p>
-      <p class="metric-sub">${totalStudents} estudiantes detectados</p>
+  document.getElementById('metrics-grid').innerHTML = `
+    <div class="metric-card neutral">
+      <p class="metric-label">Cursos cargados</p>
       <p class="metric-value">${data.length}</p>
       <p class="metric-sub">de ${SHEETS.length} configuradas</p>
     </div>
@@ -1214,64 +1092,53 @@ document.getElementById('metrics-grid').innerHTML = `
       <p class="metric-label">Aprobación</p>
       <p class="metric-value">${pctApproved}%</p>
       <p class="metric-sub">${approved} de ${totalNota} con nota</p>
-   </div>
-   <div class="metric-card ${clsAvg}">
-      <p class="metric-label">Promedio final</p>
-      <p class="metric-label">Promedio global</p>
-     <p class="metric-value">${globalAvg}</p>
-      <p class="metric-sub">solo con unidades cerradas</p>
     </div>
-    <div class="metric-card ${clsRisk}">
-      <p class="metric-label">Unidades en riesgo</p>
-      <p class="metric-value">${totalRisk}</p>
-      <p class="metric-sub">notas finales bajo 4,0</p>
+    <div class="metric-card ${clsAvg}">
+      <p class="metric-label">Promedio global</p>
+      <p class="metric-value">${globalAvg}</p>
       <p class="metric-sub">escala 1,0 a 7,0</p>
-   </div>
-    <div class="metric-card ${clsIncomplete}">
-      <p class="metric-label">Procesos incompletos</p>
-      <p class="metric-value">${totalIncomplete}</p>
-      <p class="metric-sub">${totalClosedFinals} notas finales cerradas</p>
+    </div>
     <div class="metric-card ${clsB40}">
       <p class="metric-label">Riesgo académico</p>
       <p class="metric-value">${pctB40}%</p>
       <p class="metric-sub">${totalB40} estudiantes bajo 4,0</p>
-   </div>
- `;
-
-  document.getElementById('total-est-label').textContent = `${totalClosedFinals} notas finales cerradas`;
+    </div>
+  `;
   document.getElementById('total-est-label').textContent = `${totalNota} estudiantes con nota registrada`;
 }
 
 function renderCharts(data) {
-  const labels = data.map(d => d.name);
-  const avgs = data.map(d => d.avg !== null ? d.avg / 10 : 0);
-  const colors = data.map(d => d.avg === null ? '#a898c7' : d.avg >= 55 ? '#22c55e' : d.avg >= 40 ? '#f59e0b' : '#ef4444');
   const labels = data.map(d=>d.name);
   const avgs   = data.map(d=>d.avg !== null ? d.avg / 10 : 0);
   const colors = data.map(d=>d.avg>=55?'#22c55e':d.avg>=40?'#f59e0b':'#ef4444');
 
-if (barChartInst) barChartInst.destroy();
-barChartInst = new Chart(document.getElementById('barChart'), {
-type: 'bar',
-data: {
-labels,
-datasets: [{
-        label: 'Promedio final',
+  if (barChartInst) barChartInst.destroy();
+  barChartInst = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
         label: 'Promedio',
-data: avgs,
-backgroundColor: colors,
-borderRadius: 14,
-@@ -1238,12 +1135,22 @@ <h2>Explorador de cursos</h2>
-backgroundColor: '#0f172a',
-padding: 12,
-cornerRadius: 12,
-          callbacks: { label: ctx => ' Promedio final: ' + ctx.raw.toFixed(1).replace('.', ',') }
+        data: avgs,
+        backgroundColor: colors,
+        borderRadius: 14,
+        borderSkipped: false,
+        maxBarThickness: 54
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          padding: 12,
+          cornerRadius: 12,
           callbacks: { label: ctx=>' Promedio: '+ctx.raw.toFixed(1).replace('.', ',') }
-}
-},
-scales: {
-        y: { min: 0, max: 7, ticks: { stepSize: 1, color: '#746493', font: { weight: '700' } }, grid: { color: 'rgba(139,92,246,0.14)' }, border: { display: false } },
-        x: { grid: { display: false }, ticks: { color: '#746493', font: { size: 11, weight: '700' } }, border: { display: false } }
+        }
+      },
+      scales: {
         y: {
           min:0,
           max:7,
@@ -1284,102 +1151,24 @@ scales: {
           ticks:{ color:'#746493', font:{size:11, weight:'700'} },
           border:{ display:false }
         }
-}
-}
-});
-@@ -1254,95 +1161,36 @@ <h2>Explorador de cursos</h2>
-data: {
-labels,
-datasets: [
-        { label: '5,5+', data: data.map(d => d.a55), backgroundColor: '#22c55e', borderRadius: 8, borderSkipped: false },
-        { label: '4,0–5,4', data: data.map(d => d.m54), backgroundColor: '#f59e0b', borderRadius: 8, borderSkipped: false },
-        { label: 'Bajo 4,0', data: data.map(d => d.b40), backgroundColor: '#ef4444', borderRadius: 8, borderSkipped: false },
-        { label:'5,5+',       data:data.map(d=>d.a55), backgroundColor:'#22c55e', borderRadius: 8, borderSkipped: false },
-        { label:'4,0–5,4',    data:data.map(d=>d.m54), backgroundColor:'#f59e0b', borderRadius: 8, borderSkipped: false },
-        { label:'Bajo 4,0',   data:data.map(d=>d.b40), backgroundColor:'#ef4444', borderRadius: 8, borderSkipped: false },
-]
-},
-options: {
-responsive: true,
-maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0f172a', padding: 12, cornerRadius: 12 } },
-      scales: {
-        y: { stacked: true, grid: { color: 'rgba(139,92,246,0.14)' }, ticks: { color: '#746493', font: { weight: '700' } }, border: { display: false } },
-        x: { stacked: true, grid: { display: false }, ticks: { color: '#746493', font: { size: 11, weight: '700' } }, border: { display: false } }
       }
     }
   });
 
-  renderUnitCharts(data);
-}
-
-function renderUnitCharts(data) {
-  const unitMap = new Map();
-
-  data.forEach(course => {
-    course.unitSummaries.forEach(unit => {
-      if (!unitMap.has(unit.name)) {
-        unitMap.set(unit.name, {
-          name: unit.name,
-          averages: [],
-          closed: 0,
-          process: 0,
-          missing: 0
-        });
-      }
-
-      const current = unitMap.get(unit.name);
-      if (unit.avg !== null) current.averages.push(unit.avg);
-      current.closed += unit.closed;
-      current.process += unit.inProcess;
-      current.missing += unit.missingFinal;
-    });
-  });
-
-  const units = Array.from(unitMap.values());
-  const labels = units.map(u => u.name);
-  const avgs = units.map(u => average(u.averages));
-  const avgDisplay = avgs.map(v => v !== null ? v / 10 : 0);
-
-  if (unitChartInst) unitChartInst.destroy();
-  unitChartInst = new Chart(document.getElementById('unitChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Promedio final de unidad',
-        data: avgDisplay,
-        backgroundColor: avgs.map(v => v === null ? '#a898c7' : v >= 55 ? '#22c55e' : v >= 40 ? '#f59e0b' : '#ef4444'),
-        borderRadius: 14,
-        borderSkipped: false
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0f172a', padding: 12, cornerRadius: 12 } },
-      scales: {
-        y: { min: 0, max: 7, ticks: { stepSize: 1, color: '#746493', font: { weight: '700' } }, grid: { color: 'rgba(139,92,246,0.14)' }, border: { display: false } },
-        x: { grid: { display: false }, ticks: { color: '#746493', font: { weight: '700' } }, border: { display: false } }
-      }
-    }
-  });
-
-  if (unitStateChartInst) unitStateChartInst.destroy();
-  unitStateChartInst = new Chart(document.getElementById('unitStateChart'), {
+  if (stackChartInst) stackChartInst.destroy();
+  stackChartInst = new Chart(document.getElementById('stackChart'), {
     type: 'bar',
     data: {
       labels,
       datasets: [
-        { label: 'Cerradas', data: units.map(u => u.closed), backgroundColor: '#22c55e', borderRadius: 8, borderSkipped: false },
-        { label: 'Con proceso sin final', data: units.map(u => u.process), backgroundColor: '#f59e0b', borderRadius: 8, borderSkipped: false },
-        { label: 'Sin final', data: units.map(u => u.missing), backgroundColor: '#ef4444', borderRadius: 8, borderSkipped: false }
+        { label:'5,5+',       data:data.map(d=>d.a55), backgroundColor:'#22c55e', borderRadius: 8, borderSkipped: false },
+        { label:'4,0–5,4',    data:data.map(d=>d.m54), backgroundColor:'#f59e0b', borderRadius: 8, borderSkipped: false },
+        { label:'Bajo 4,0',   data:data.map(d=>d.b40), backgroundColor:'#ef4444', borderRadius: 8, borderSkipped: false },
       ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: true, labels: { color: '#746493', font: { weight: '700' } } }, tooltip: { backgroundColor: '#0f172a', padding: 12, cornerRadius: 12 } },
       plugins: {
         legend:{ display:false },
         tooltip:{
@@ -1389,9 +1178,7 @@ function renderUnitCharts(data) {
           callbacks:{ label:ctx=>' '+ctx.dataset.label+': '+ctx.raw }
         }
       },
-scales: {
-        y: { stacked: true, grid: { color: 'rgba(139,92,246,0.14)' }, ticks: { color: '#746493', font: { weight: '700' } }, border: { display: false } },
-        x: { stacked: true, grid: { display: false }, ticks: { color: '#746493', font: { weight: '700' } }, border: { display: false } }
+      scales: {
         y: {
           stacked:true,
           grid:{ color:'rgba(139,92,246,0.14)' },
@@ -1404,30 +1191,27 @@ scales: {
           ticks:{ color:'#746493', font:{size:11, weight:'700'} },
           border:{ display:false }
         }
-}
-}
-});
-@@ -1354,20 +1202,23 @@ <h2>Explorador de cursos</h2>
-tbody.innerHTML = '<tr><td colspan="11" class="state-msg">No hay datos cargados</td></tr>';
-return;
+      }
+    }
+  });
 }
 
-tbody.innerHTML = data.map(d => {
-    const pct40 = pct(d.b40, d.conNota);
-    const pct54 = pct(d.m54, d.conNota);
-    const pct55 = pct(d.a55, d.conNota);
-
+function renderTable(data) {
+  const tbody = document.getElementById('table-body');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="11" class="state-msg">No hay datos cargados</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(d => {
     const pct40 = d.conNota ? Math.round(d.b40/d.conNota*100) : 0;
     const pct54 = d.conNota ? Math.round(d.m54/d.conNota*100) : 0;
     const pct55 = d.conNota ? Math.round(d.a55/d.conNota*100) : 0;
-const badge = d.avg >= 55
-? `<span class="badge badge-green">Bueno</span>`
-: d.avg >= 45
-? `<span class="badge badge-amber">Regular</span>`
-: d.avg !== null
-? `<span class="badge badge-red">Atención</span>`
-      : `<span class="badge badge-gray">Sin finales</span>`;
-
+    const badge = d.avg >= 55
+      ? `<span class="badge badge-green">Bueno</span>`
+      : d.avg >= 45
+      ? `<span class="badge badge-amber">Regular</span>`
+      : d.avg !== null
+      ? `<span class="badge badge-red">Atención</span>`
       : `<span class="badge badge-gray">Sin datos</span>`;
     const bar = d.conNota ? `
       <div class="pct-bar" title="Verde: 5,5+ | Amarillo: 4,0-5,4 | Rojo: bajo 4,0">
@@ -1435,184 +1219,86 @@ const badge = d.avg >= 55
         <div class="pct-seg" style="width:${pct54}%;background:#f59e0b"></div>
         <div class="pct-seg" style="width:${pct40}%;background:#ef4444"></div>
       </div>` : '—';
-return `<tr>
-     <td class="curso-name">${d.name}</td>
-     <td>${d.total}</td>
-@@ -1378,83 +1229,24 @@ <h2>Explorador de cursos</h2>
-     <td style="color:#b91c1c">${d.b40} <small style="color:#94a3b8">(${pct40}%)</small></td>
-     <td style="color:#b45309">${d.m54} <small style="color:#94a3b8">(${pct54}%)</small></td>
-     <td style="color:#15803d">${d.a55} <small style="color:#94a3b8">(${pct55}%)</small></td>
-      <td>${d.incompleteProcesses.length}</td>
+    return `<tr>
+      <td class="curso-name">${d.name}</td>
+      <td>${d.total}</td>
+      <td>${d.conNota}</td>
+      <td><strong>${fmtGrade(d.avg)}</strong></td>
+      <td>${fmtGrade(d.min)}</td>
+      <td>${fmtGrade(d.max)}</td>
+      <td style="color:#b91c1c">${d.b40} <small style="color:#94a3b8">(${pct40}%)</small></td>
+      <td style="color:#b45309">${d.m54} <small style="color:#94a3b8">(${pct54}%)</small></td>
+      <td style="color:#15803d">${d.a55} <small style="color:#94a3b8">(${pct55}%)</small></td>
       <td style="min-width:110px">${bar}</td>
-     <td>${badge}</td>
-   </tr>`;
-}).join('');
+      <td>${badge}</td>
+    </tr>`;
+  }).join('');
 }
 
-function renderMiniList(id, items, emptyText, renderItem) {
-  const el = document.getElementById(id);
-  if (!el) return;
+function renderCourseTabs(selectedName = '1ro A') {
+  const container = document.getElementById('course-tabs');
+  if (!container) return;
 
-  if (!items.length) {
-    el.innerHTML = `<p class="state-msg" style="padding:1.2rem">${emptyText}</p>`;
+  container.innerHTML = allCourseData.map(course => `
+    <button class="course-tab ${course.name === selectedName ? 'active' : ''}" onclick="renderCourseDetail('${course.name.replace(/'/g, "\'")}')">
+      ${course.name}
+    </button>
+  `).join('');
+}
+
+function renderCourseDetail(courseName = '1ro A') {
+  const container = document.getElementById('course-detail');
+  if (!container) return;
+
+  const course = allCourseData.find(c => c.name === courseName) || allCourseData[0];
+  if (!course) {
+    container.innerHTML = '<p class="state-msg">No hay datos disponibles para mostrar.</p>';
     return;
   }
 
-  el.innerHTML = items.slice(0, 8).map(renderItem).join('');
-}
-
-function renderInsights(data) {
-  const risk = data.flatMap(course => course.riskStudents)
-    .sort((a, b) => a.grade - b.grade);
-
-  const incomplete = data.flatMap(course => course.incompleteProcesses)
-    .sort((a, b) => a.course.localeCompare(b.course) || a.unit.localeCompare(b.unit));
-
-  const featured = data.flatMap(course => course.featuredStudents)
-    .sort((a, b) => b.avg - a.avg);
-
-  renderMiniList('risk-list', risk, 'No hay notas finales bajo 4,0 en unidades cerradas.', item => `
-    <div class="mini-item">
-      <div>
-        <strong>${item.student}</strong>
-        <span>${item.course} · ${item.unit}</span>
-      </div>
-      <span class="badge badge-red">${fmtGrade(item.grade)}</span>
-    </div>
-  `);
-
-  renderMiniList('incomplete-list', incomplete, 'No hay procesos incompletos detectados con la configuración actual.', item => `
-    <div class="mini-item">
-      <div>
-        <strong>${item.student}</strong>
-        <span>${item.course} · ${item.unit}</span>
-      </div>
-      <span class="badge badge-amber">${item.processCount}/${item.expectedProcessCount || '—'}</span>
-    </div>
-  `);
-
-  renderMiniList('featured-list', featured, 'Aún no hay estudiantes destacados con promedio final cerrado.', item => `
-    <div class="mini-item">
-      <div>
-        <strong>${item.student}</strong>
-        <span>${item.course} · ${item.closedUnits} unidad(es) cerrada(s)</span>
-      </div>
-      <span class="badge badge-green">${fmtGrade(item.avg)}</span>
-    </div>
-  `);
-}
-
-function safeCourseName(name) {
-  return String(name).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-}
-
-function renderCourseTabs(selectedName = '') {
-function renderCourseTabs(selectedName = '1ro A') {
-const container = document.getElementById('course-tabs');
-if (!container) return;
-
-  const selected = selectedName || allCourseData[0]?.name || '';
-
-container.innerHTML = allCourseData.map(course => `
-    <button class="course-tab ${course.name === selected ? 'active' : ''}" onclick="renderCourseDetail('${safeCourseName(course.name)}')">
-    <button class="course-tab ${course.name === selectedName ? 'active' : ''}" onclick="renderCourseDetail('${course.name.replace(/'/g, "\'")}')">
-     ${course.name}
-   </button>
- `).join('');
-}
-
-function renderCourseDetail(courseName = '') {
-function renderCourseDetail(courseName = '1ro A') {
-const container = document.getElementById('course-detail');
-if (!container) return;
-
-@@ -1466,98 +1258,83 @@ <h2>Explorador de cursos</h2>
-
-renderCourseTabs(course.name);
+  renderCourseTabs(course.name);
 
   const pct40 = course.conNota ? Math.round(course.b40 / course.conNota * 100) : 0;
   const pct54 = course.conNota ? Math.round(course.m54 / course.conNota * 100) : 0;
   const pct55 = course.conNota ? Math.round(course.a55 / course.conNota * 100) : 0;
-const approved = course.conNota - course.b40;
-  const pctApproved = pct(approved, course.conNota);
-  const pct55 = pct(course.a55, course.conNota);
-
-  const statusText = course.avg >= 55 ? 'Bueno' : course.avg >= 45 ? 'Regular' : course.avg !== null ? 'Atención' : 'Sin finales';
-  const statusClass = course.avg >= 55 ? 'good' : course.avg >= 45 ? 'mid' : course.avg !== null ? 'risk' : 'none';
-
-  const unitsHtml = course.unitSummaries.map(unit => `
-    <div class="unit-card">
-      <h4>${unit.name}</h4>
-      <div class="unit-stats">
-        <div>
-          <strong>${fmtGrade(unit.avg)}</strong>
-          <span>Promedio final</span>
-        </div>
-        <div>
-          <strong>${unit.closed}</strong>
-          <span>Finales cerradas</span>
-        </div>
-        <div>
-          <strong>${unit.missingFinal}</strong>
-          <span>Sin nota final</span>
-        </div>
-      </div>
-      <div class="course-note">
-        ${unit.closed
-          ? `Distribución final: ${unit.b40} bajo 4,0, ${unit.m54} entre 4,0 y 5,4, ${unit.a55} con 5,5 o más.`
-          : 'Advertencia: esta unidad aún no tiene notas finales cerradas suficientes para análisis de rendimiento.'}
-      </div>
-    </div>
-  `).join('');
+  const approved = course.conNota - course.b40;
   const pctApproved = course.conNota ? Math.round(approved / course.conNota * 100) : 0;
 
   const statusText = course.avg >= 55 ? 'Bueno' : course.avg >= 45 ? 'Regular' : course.avg !== null ? 'Atención' : 'Sin datos';
   const statusClass = course.avg >= 55 ? 'good' : course.avg >= 45 ? 'mid' : 'risk';
 
-container.innerHTML = `
-   <div class="course-hero">
-     <div>
-       <h3>${course.name}</h3>
-        <p>Resumen basado en notas finales de unidades cerradas. Las notas de proceso se usan para detectar avance incompleto, no para calcular promedio final.</p>
+  container.innerHTML = `
+    <div class="course-hero">
+      <div>
+        <h3>${course.name}</h3>
         <p>Resumen individual del curso en escala chilena 1,0 a 7,0. Esta vista muestra datos agregados, sin exponer nombres de estudiantes.</p>
-     </div>
-     <span class="course-status ${statusClass}">${statusText}</span>
-   </div>
+      </div>
+      <span class="course-status ${statusClass}">${statusText}</span>
+    </div>
 
-   <div class="metrics-grid">
-     <div class="metric-card neutral">
-        <p class="metric-label">Promedio final</p>
+    <div class="metrics-grid">
+      <div class="metric-card neutral">
         <p class="metric-label">Promedio</p>
-       <p class="metric-value">${fmtGrade(course.avg)}</p>
-        <p class="metric-sub">solo unidades cerradas</p>
+        <p class="metric-value">${fmtGrade(course.avg)}</p>
         <p class="metric-sub">nota general del curso</p>
-     </div>
-     <div class="metric-card ${pctApproved >= 80 ? 'green' : pctApproved >= 65 ? 'amber' : 'red'}">
-        <p class="metric-label">Aprobación final</p>
+      </div>
+      <div class="metric-card ${pctApproved >= 80 ? 'green' : pctApproved >= 65 ? 'amber' : 'red'}">
         <p class="metric-label">Aprobación</p>
-       <p class="metric-value">${pctApproved}%</p>
-        <p class="metric-sub">${approved} de ${course.conNota} promedios finales</p>
+        <p class="metric-value">${pctApproved}%</p>
         <p class="metric-sub">${approved} de ${course.conNota} con nota</p>
-     </div>
-     <div class="metric-card red">
-        <p class="metric-label">Unidades en riesgo</p>
-        <p class="metric-value">${course.riskStudents.length}</p>
-        <p class="metric-sub">finales bajo 4,0</p>
+      </div>
+      <div class="metric-card red">
         <p class="metric-label">Bajo 4,0</p>
         <p class="metric-value">${course.b40}</p>
         <p class="metric-sub">${pct40}% del curso</p>
-     </div>
-     <div class="metric-card green">
-        <p class="metric-label">Destacados</p>
+      </div>
+      <div class="metric-card green">
         <p class="metric-label">5,5 o más</p>
-       <p class="metric-value">${course.a55}</p>
-        <p class="metric-sub">${pct55}% con promedio 5,5+</p>
+        <p class="metric-value">${course.a55}</p>
         <p class="metric-sub">${pct55}% del curso</p>
-     </div>
-   </div>
+      </div>
+    </div>
 
-    <div class="unit-grid">
-      ${unitsHtml || '<p class="state-msg">No hay unidades configuradas.</p>'}
     <div class="range-grid">
       <div class="range-card">
         <strong>${course.b40}</strong>
@@ -1626,58 +1312,50 @@ container.innerHTML = `
         <strong>${course.a55}</strong>
         <span>Desde 5,5 a 7,0 · ${pct55}%</span>
       </div>
-   </div>
+    </div>
 
-   <div class="course-note">
-      Lectura rápida: ${course.incompleteProcesses.length > 0
-        ? `hay ${course.incompleteProcesses.length} proceso(s) con avance registrado pero sin nota final. No se consideran en el promedio final hasta cerrar la unidad.`
-        : 'no se detectan procesos pendientes con la configuración actual.'}
-      ${course.riskStudents.length > 0
-        ? ` Además, hay ${course.riskStudents.length} nota(s) final(es) bajo 4,0 que requieren seguimiento.`
-        : ' No se observan unidades cerradas en riesgo.'}
+    <div class="course-note">
       Lectura rápida: ${course.b40 > 0 ? `hay ${course.b40} estudiante(s) bajo 4,0 que requieren seguimiento o refuerzo.` : 'no se observan estudiantes bajo 4,0 en esta carga.'}
       ${course.avg !== null && course.avg < 45 ? 'Conviene revisar contenidos base y diseñar una acción remedial breve.' : course.avg >= 55 ? 'El curso muestra un desempeño global positivo.' : 'El curso se mantiene en zona intermedia, con espacio para reforzar y consolidar aprendizajes.'}
-   </div>
- `;
+    </div>
+  `;
 }
 
 // ── LOAD ALL ─────────────────────────────────────────────────────
 async function loadAll() {
-const btn = document.getElementById('refreshBtn');
-btn.classList.add('spinning');
-document.getElementById('chips-container').innerHTML = '';
-allCourseData = [];
+  const btn = document.getElementById('refreshBtn');
+  btn.classList.add('spinning');
+  document.getElementById('chips-container').innerHTML = '';
+  allCourseData = [];
 
-  const promises = SHEETS.filter(s => s.url).map(async sheet => {
   const promises = SHEETS.filter(s=>s.url).map(async sheet => {
-setChip(sheet.name, 'loading');
-try {
-const data = await fetchSheet(sheet);
-setChip(sheet.name, 'loaded');
-return data;
-    } catch (e) {
+    setChip(sheet.name, 'loading');
+    try {
+      const data = await fetchSheet(sheet);
+      setChip(sheet.name, 'loaded');
+      return data;
     } catch(e) {
-setChip(sheet.name, 'error');
-console.error('Error cargando', sheet.name, e);
-return null;
-@@ -1570,20 +1347,22 @@ <h3>${course.name}</h3>
-renderMetrics(allCourseData);
-renderCharts(allCourseData);
-renderTable(allCourseData);
-  renderInsights(allCourseData);
-  renderCourseTabs(allCourseData[0]?.name || '');
-  renderCourseDetail(allCourseData[0]?.name || '');
+      setChip(sheet.name, 'error');
+      console.error('Error cargando', sheet.name, e);
+      return null;
+    }
+  });
+
+  const results = await Promise.all(promises);
+  allCourseData = results.filter(Boolean);
+
+  renderMetrics(allCourseData);
+  renderCharts(allCourseData);
+  renderTable(allCourseData);
   renderCourseTabs('1ro A');
   renderCourseDetail('1ro A');
 
-const now = new Date();
-document.getElementById('last-updated').textContent =
-    now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }) + ' · ' +
-    now.toLocaleDateString('es-CL', { day: '2-digit', month: 'short' });
+  const now = new Date();
+  document.getElementById('last-updated').textContent =
     now.toLocaleTimeString('es-CL', {hour:'2-digit',minute:'2-digit'}) + ' · ' +
     now.toLocaleDateString('es-CL', {day:'2-digit',month:'short'});
 
-btn.classList.remove('spinning');
+  btn.classList.remove('spinning');
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
@@ -1688,3 +1366,4 @@ loadAll();
 setInterval(loadAll, 5 * 60 * 1000);
 </script>
 </body>
+</html>
