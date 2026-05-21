@@ -532,6 +532,17 @@
     </div>
   </section>
 
+  <section class="section">
+    <div class="section-header">
+      <h2>Distribución por curso</h2>
+      <span>Porcentajes generales</span>
+    </div>
+    <div class="chart-card">
+      <p class="chart-title">Aprobados, zona media y reprobados</p>
+      <div class="chart-wrap"><canvas id="courseDistributionChart"></canvas></div>
+    </div>
+  </section>
+
 </main>
 
 <script>
@@ -632,6 +643,7 @@ const SHEETS = [
 
 let allData = [];
 let courseChart = null;
+let courseDistributionChart = null;
 
 function parseCSV(text) {
   text = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
@@ -928,6 +940,51 @@ function renderCharts(data) {
     options: chartOptions(0, 7, value => value.toFixed(1).replace('.', ','))
   });
 
+  const distributionLabels = data.map(c => c.name);
+  const totals = data.map(c => c.low + c.mid + c.high);
+  const approvedPct = data.map((c, i) => pct(c.mid + c.high, totals[i]));
+  const midPct = data.map((c, i) => pct(c.mid, totals[i]));
+  const failedPct = data.map((c, i) => pct(c.low, totals[i]));
+
+  if (courseDistributionChart) courseDistributionChart.destroy();
+  courseDistributionChart = new Chart(document.getElementById('courseDistributionChart'), {
+    type: 'bar',
+    data: {
+      labels: distributionLabels,
+      datasets: [
+        { label: 'Aprobados', data: approvedPct, backgroundColor: '#22c55e', borderRadius: 8, borderSkipped: false },
+        { label: 'Zona media', data: midPct, backgroundColor: '#f59e0b', borderRadius: 8, borderSkipped: false },
+        { label: 'Reprobados', data: failedPct, backgroundColor: '#ef4444', borderRadius: 8, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, labels: { color: '#746493', font: { weight: '700' } } },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          padding: 12,
+          cornerRadius: 12,
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%` }
+        }
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 100,
+          ticks: { color: '#746493', font: { weight: '700' }, callback: value => `${value}%` },
+          grid: { color: 'rgba(139,92,246,0.14)' },
+          border: { display: false }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: '#746493', font: { size: 11, weight: '700' } },
+          border: { display: false }
+        }
+      }
+    }
+  });
 }
 
 function chartOptions(min, max, tooltipFormatter) {
